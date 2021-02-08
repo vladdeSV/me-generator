@@ -17,9 +17,9 @@ type Options = {
   schema: PoolItem[][]
 };
 
-function generate(options: Options): (Item | null)[] {
+function generate(options: Options): Item[] {
   try {
-    const output: (Item | null)[] = [];
+    const output: Item[] = [];
 
     options.schema.forEach((poolItems: PoolItem[]) => {
       const selectedPoolItem = poolItems[Math.floor(Math.random() * poolItems.length)];
