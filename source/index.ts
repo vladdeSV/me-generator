@@ -43,10 +43,15 @@ function generate(options: Options): Item[] {
 
 const opts: Options = {
   repository: {
+    // skin
     body: { data: 'regular body' },
+    // torso
     hoodie: { data: 'grey hoodie' },
+    // legs
     blackCargoPants: { data: 'black cargo pants' },
+    // feet
     dualitySocks: { data: 'orange and white socks' },
+    // head
     beard: { data: 'normal beard' },
     hair: { data: 'hair' },
     brownCap: { data: 'the north face cap' },
@@ -54,7 +59,7 @@ const opts: Options = {
   schema: [
     [{ itemId: 'body' }],
     [{ itemId: 'dualitySocks' }, { itemId: null }],
-    [{ itemId: 'blackCargoPants' }],
+    [{ itemId: 'blackCargoPants' }, { itemId: null }],
     [{ itemId: 'hoodie' }, { itemId: null }],
     [{ itemId: 'hair' }],
     [{ itemId: 'beard' }],
