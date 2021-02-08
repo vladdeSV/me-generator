@@ -24,7 +24,6 @@ function generate(options: Options): (Item | null)[] {
     options.schema.forEach((poolItems: PoolItem[]) => {
       const selectedPoolItem = poolItems[Math.floor(Math.random() * poolItems.length)];
       if (selectedPoolItem.itemId === null) {
-        output.push(null);
         return;
       }
 
