@@ -1,30 +1,33 @@
 /* eslint-disable no-restricted-syntax */
 import * as fs from 'fs';
 
-type Part = {
+export type Part = {
   file: string
   x: number
   y: number
-  // scale?: number
+  scale?: number
 }
 
-type DocumentConfiguration = {
+export type DocumentConfiguration = {
   width: number
   height: number
   parts: Part[]
 }
 
-function generate(config: DocumentConfiguration): string {
+/// generate svg data
+export function generate(config: DocumentConfiguration): string {
   let data: string = '';
 
   // fixme use some sort of dom generator
   // this is beyond horrible
+  // ...
+  // but it works!
 
   data += `<svg fill="none" width="${config.width}" height="${config.height}" xmlns="http://www.w3.org/2000/svg">`;
 
   for (const part of config.parts) {
-    // ${part.scale ? ` scale(${part.scale},${part.scale})` : ''}
-    data += `<g transform="translate(${part.x},${part.y})">`;
+    //
+    data += `<g transform="translate(${part.x},${part.y})${part.scale ? ` scale(${part.scale})` : ''}">`;
     data += fs.readFileSync(part.file);
     data += '</g>';
   }
@@ -33,20 +36,3 @@ function generate(config: DocumentConfiguration): string {
 
   return data;
 }
-
-(() => {
-  const config: DocumentConfiguration = {
-    width: 200,
-    height: 200,
-    parts: [
-      {
-        file: './circle.svg',
-        x: 50,
-        y: 0,
-      },
-    ],
-  };
-
-  const generatedSvg = generate(config);
-  fs.writeFileSync('./output.svg', generatedSvg);
-})();
