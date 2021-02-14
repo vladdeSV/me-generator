@@ -1,5 +1,3 @@
-import { Part } from '../svg-combiner'
-
 /*
 # what do i want from the project?
 generate an SVG from different parts.
