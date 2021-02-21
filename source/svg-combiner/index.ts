@@ -1,17 +1,22 @@
-/* eslint-disable no-restricted-syntax */
 import * as fs from 'fs'
+import { readFileSync } from 'fs'
+import { relative } from 'path'
+
+export function readJsonFileAs<T>(path: string): T {
+  return JSON.parse(readFileSync(path).toString('utf8')) as T
+}
 
 export type Part = {
-  file: string,
-  x: number,
-  y: number,
-  scale?: number,
+  file: string
+  x: number
+  y: number
+  scale?: number
 }
 
 export type DocumentConfiguration = {
-  width: number,
-  height: number,
-  parts: Part[],
+  width: number
+  height: number
+  parts: (Part | null)[]
 }
 
 /// generate svg data
