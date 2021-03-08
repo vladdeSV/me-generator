@@ -5,13 +5,12 @@ function randomElement<T>(array: T[]): T {
   return array[Math.trunc(Math.random() * array.length)]
 }
 
-function todoRepeatOdds<T>(e: T, c: number): T[] {
-  return new Array<T>(c).fill(e)
-}
-
 function generateFacialHairIds(): (string | undefined)[] {
-  const hairPool = ['hair roff', 'hair 1cm', 'ltt touke']
-  const hair = randomElement(hairPool)
+  const hair = randomWeightPart([
+    'hair roff',
+    'hair 1cm',
+    'ltt touke',
+  ])
 
   let beardPool = ['beard bigger', 'beard 3mm', undefined]
   if (hair === 'hair roff') {
@@ -29,6 +28,35 @@ function generateFacialHairIds(): (string | undefined)[] {
 
 type PartMap = {
   [name: string]: Part
+}
+
+type PartId = string
+type WeightedPart = { partId: PartId | undefined, weight?: number }
+
+function selectRandomElementByWeight<T>(input: T[], weights: number[]): T {
+
+  if (input.length !== weights.length) {
+    throw new Error('input and weight lengths must match')
+  }
+
+  const aggregatedWeights = weights.map((sum => (value: number) => sum += value)(0))
+  const weightTotal = Math.floor(Math.random() * weights.reduce((sum: number, weight) => sum + weight, 0))
+  const index = aggregatedWeights.filter(el => weightTotal >= el).length
+
+  return input[index]
+}
+
+function randomWeightPart(parts: (WeightedPart | PartId)[]): PartId | undefined {
+
+  const weightedParts = parts
+    .map(part => typeof part === 'string' ? { partId: part } : part)
+    .map(part => {
+      return { partId: part.partId, weight: part.weight ?? 1 }
+    })
+
+  const partIds = weightedParts.map(part => part.partId)
+  const partWeights = weightedParts.map(part => part.weight)
+  return selectRandomElementByWeight(partIds, partWeights)
 }
 
 const parts: PartMap = {
@@ -165,11 +193,11 @@ function generatePartsListFromIds(ids: (string | undefined)[], parts: PartMap): 
       'underwear 1',
 
       'duality socks',
-      'beige cargo pants',
+      randomWeightPart(['beige cargo pants', { partId: undefined, weight: 0.1 }]),
       //'necklace',
       'ltt crewneck',
       ...generateFacialHairIds(),
-      randomElement(['minibrills', ...todoRepeatOdds(undefined, 10)]),
+      randomWeightPart(['minibrills', { partId: undefined, weight: 10 }]),
 
       'right hand',
       'left hand',
