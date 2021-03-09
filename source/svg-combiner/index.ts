@@ -16,7 +16,7 @@ export type Part = {
 export type DocumentConfiguration = {
   width: number
   height: number
-  parts: (Part | null)[]
+  parts: Part[]
 }
 
 /// generate svg data
