@@ -13,3 +13,25 @@ Generate an image with random pieces of clothing / cosmetics
     <td><img src="./resource/4.svg"></td>
   </tr>
 </table>
+
+## Project
+The projects consists of multiple parts:
+- *SVG combiner*, combines multiple `.svg` files into one
+- *Generator*, rulebook for how image should be combined (generating by generator version and seed)
+- *Webservice*, allows for generating images rapidly, and in extesnion, from anywhere.
+
+## Hack
+> Can I hack it?
+
+Yes. Although this project right now generates a person with clothes, there is nothing stopping you from changing what is being generated. It is a bit bulky, but with some effort you could make your own generator.
+
+In essence, this is a glorified SVG-combiner.
+
+## Roadmap
+Nothing is set in stone. This is a passion project at best, and I will work on what I want when I feel like it. But in general, there are a few things I want to besides improving the codebase:
+- Allow for custom generator rules in simple JSON format. I would be so cool if any generation logic was a *simple* document, making it very hackable.
+- Add more clothes.
+- `//todo: add more`
+
+## License
+MIT © [Vladimirs Nordholm](https://github.com/vladdeSV)
