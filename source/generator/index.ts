@@ -11,7 +11,7 @@ export interface prng {
   state(): seedrandom.State
 }
 
-export function generate(seed: string, version: '1-alpha'): Part[] {
+export function generate(seed: string, version: string): Part[] {
 
   const rng = seedrandom(seed)
 
