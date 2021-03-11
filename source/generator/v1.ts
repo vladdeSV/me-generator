@@ -72,7 +72,7 @@ function selectRandomElementByWeight<T>(rng: prng, input: T[], weights: number[]
   }
 
   const aggregatedWeights = weights.map((sum => (value: number) => sum += value)(0))
-  const weightTotal = Math.trunc(rng() * weights.reduce((sum: number, weight) => sum + weight, 0))
+  const weightTotal = rng() * weights.reduce((sum: number, weight) => sum + weight, 0)
   const index = aggregatedWeights.filter(el => weightTotal >= el).length
 
   return input[index]
