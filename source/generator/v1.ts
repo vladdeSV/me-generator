@@ -4,18 +4,20 @@ import * as path from 'path'
 
 export function generateV1(rng: prng): Part[] {
   const ids = [
+    randomWeightPart(rng, [{ partId: 'master of none', weight: 0.1 }, undefined]),
+
     'torso',
     'right leg',
     'left leg',
     'left arm',
     'right arm',
     'head',
-    'underwear 1',
+    randomWeightPart(rng, ['underwear 1', 'underwear 2']),
 
-    'duality socks',
+    randomWeightPart(rng, ['duality socks', undefined]),
     randomWeightPart(rng, ['beige cargo pants', { partId: undefined, weight: 0.1 }]),
     //'necklace',
-    'ltt crewneck',
+    randomWeightPart(rng, ['ltt crewneck', { partId: undefined, weight: 0.1 }]),
     ...generateFacialHairIds(rng),
     randomWeightPart(rng, ['minibrills', { partId: undefined, weight: 10 }]),
 
