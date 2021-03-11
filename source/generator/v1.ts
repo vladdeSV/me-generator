@@ -9,23 +9,23 @@ export function generateV1(rng: prng): Part[] {
     'torso',
     'right leg',
     'left leg',
+    randomWeightPart(rng, ['underwear 1', 'underwear 2']),
     'left arm',
     'right arm',
     'head',
-    randomWeightPart(rng, ['underwear 1', 'underwear 2']),
 
-    randomWeightPart(rng, ['duality socks', undefined]),
+    randomWeightPart(rng, ['duality socks', { partId: undefined, weight: 0.3 }]),
     randomWeightPart(rng, ['beige cargo pants', { partId: undefined, weight: 0.1 }]),
     //'necklace',
     randomWeightPart(rng, ['ltt crewneck', { partId: undefined, weight: 0.1 }]),
     ...generateFacialHairIds(rng),
-    randomWeightPart(rng, ['minibrills', { partId: undefined, weight: 10 }]),
+    randomWeightPart(rng, [{ partId: 'minibrills', weight: 0.1 }, undefined]),
 
     'right hand',
     'left hand',
   ]
 
-  const data = readJsonFileAs<{ [name: string]: [number, number] }>('./me-generator-images/source/position.json')
+  const data = readJsonFileAs<{ [name: string]: [number, number] }>('../me-generator-images/rulebook.json')
   const partMap = generatePartMapFromJson('./me-generator-images/', data)
 
   return convertPartIdsToParts(ids, partMap)
