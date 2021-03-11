@@ -82,15 +82,23 @@ function randomWeightPart(rng: prng, parts: (WeightedPart | PartId | undefined)[
     return value !== undefined
   }
 
-  const weightedParts = parts
-    .filter(defined)
-    .map(part => typeof part === 'string' ? { partId: part } : part)
-    .map(part => {
-      return { partId: part.partId, weight: part.weight ?? 1 }
-    })
+  const weightedParts: (WeightedPart)[] = []
+
+  for (const part of parts) {
+
+    let weightedPart: WeightedPart
+
+    if (typeof part !== 'object') {
+      weightedPart = { partId: part, weight: 1 }
+    } else {
+      weightedPart = part
+    }
+
+    weightedParts.push(weightedPart)
+  }
 
   const partIds = weightedParts.map(part => part.partId)
-  const partWeights = weightedParts.map(part => part.weight)
+  const partWeights = weightedParts.map(part => part.weight ?? 1)
   return selectRandomElementByWeight(rng, partIds, partWeights)
 }
 
