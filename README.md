@@ -29,9 +29,14 @@ In essence, this is a glorified SVG-combiner.
 
 ## Roadmap
 Nothing is set in stone. This is a passion project at best, and I will work on what I want when I feel like it. But in general, there are a few things I want to besides improving the codebase:
-- Allow for custom generator rules in simple JSON format. I would be so cool if any generation logic was a *simple* document, making it very hackable.
-- Add more clothes.
-- `//todo: add more`
+- [ ] Allow for custom generator rules in simple JSON format. I would be so cool if any generation logic was a *simple* document, making it very hackable.
+   - [x] Parts generator
+   - [ ] Custom rules (disallow certain combinations, etc.)
+- [ ] Add more clothes.
+- [ ] `//todo: add more`
+
+## Why
+Have you heard of [The Binding of Isaac](https://store.steampowered.com/app/250900/The_Binding_of_Isaac_Rebirth/)?
 
 ## License
 MIT © [Vladimirs Nordholm](https://github.com/vladdeSV)
