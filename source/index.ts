@@ -76,5 +76,5 @@ app.get(
   },
 )
 app.listen(PORT, () => {
-  console.log(`[server]: server running at https://localhost:${PORT}`)
+  console.log(`[server]: server running at http://localhost:${PORT}`)
 })
