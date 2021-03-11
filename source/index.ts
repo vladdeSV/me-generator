@@ -1,7 +1,19 @@
-import { generate } from './generator'
 import { DocumentConfiguration, generate as generateSvg } from './svg-combiner'
-import express from 'express'
 import { randomBytes } from 'crypto'
+import { generate } from './generator/v1'
+
+import express from 'express'
+import seedrandom from 'seedrandom'
+import { Rulebook } from './rulebook'
+import { readJsonFileAs } from './utils'
+
+export interface prng {
+  (): number
+  double(): number
+  int32(): number
+  quick(): number
+  state(): seedrandom.State
+}
 
 const app = express()
 const PORT = 8000
@@ -27,46 +39,29 @@ app.get(
       return seed
     }
 
-    const verifyVersion = (version: unknown): string | undefined => {
-      if (version === undefined) {
-        return undefined
-      }
-
-      if (typeof version !== 'string') {
-        throw new Error('Invalid version')
-
-      }
-
-      const validVersions = ['1-alpha']
-      if (!validVersions.includes(version)) {
-        throw new Error(`Invalid version '${version}'`)
-      }
-
-      return version
-    }
-
     let seedParameter: string | undefined
-    let versionParameter: string | undefined
 
     try {
       seedParameter = verifySeed(req.query.seed)
-      versionParameter = verifyVersion(req.query.v)
     } catch (e) {
       res.statusCode = 400
       return res.send(e)
     }
 
     const seed = seedParameter ?? randomBytes(8).toString('hex')
-    const version = versionParameter ?? '1-alpha'
+    const rng = seedrandom(seed)
 
-    console.log(`Generating by version '${version}' and seed '${seed}'`)
-    const config: DocumentConfiguration = {
+    const config = readJsonFileAs<{ rulebook: string }>('./config.json')
+    const rulebook: Rulebook = readJsonFileAs<Rulebook>(config.rulebook)
+
+    console.log(`Generating by seed '${seed}'`)
+    const documentConfiguration: DocumentConfiguration = {
       width: 850,
       height: 270,
-      parts: generate(seed, version),
+      parts: generate(rng, rulebook),
     }
 
-    const data = generateSvg(config)
+    const data = generateSvg(documentConfiguration)
 
     res.header({
       'Content-Type': 'image/svg+xml',

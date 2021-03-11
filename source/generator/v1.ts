@@ -1,61 +1,39 @@
-import { prng } from './index'
-import { Part, readJsonFileAs } from '../svg-combiner'
+import { prng } from '../index'
+import { Part } from '../svg-combiner'
 import * as path from 'path'
+import { Rulebook } from '../rulebook'
 
-export function generateV1(rng: prng): Part[] {
-  const ids = [
-    randomWeightPart(rng, [{ partId: 'master of none', weight: 0.1 }, undefined]),
+export function generate(rng: prng, rulebook: Rulebook): Part[] {
+  const ids: string[] = []
 
-    'torso',
-    'right leg',
-    'left leg',
-    randomWeightPart(rng, ['underwear 1', 'underwear 2']),
-    'left arm',
-    'right arm',
-    'head',
+  for (const gen of rulebook.generation) {
+    if (typeof gen === 'string') {
+      ids.push(gen)
+      continue
+    }
 
-    randomWeightPart(rng, ['duality socks', { partId: undefined, weight: 0.3 }]),
-    randomWeightPart(rng, ['beige cargo pants', { partId: undefined, weight: 0.1 }]),
-    //'necklace',
-    randomWeightPart(rng, ['ltt crewneck', { partId: undefined, weight: 0.1 }]),
-    ...generateFacialHairIds(rng),
-    randomWeightPart(rng, [{ partId: 'minibrills', weight: 0.1 }, undefined]),
-
-    'right hand',
-    'left hand',
-  ]
-
-  const data = readJsonFileAs<{ [name: string]: [number, number] }>('../me-generator-images/rulebook.json')
-  const partMap = generatePartMapFromJson('./me-generator-images/', data)
-
-  return convertPartIdsToParts(ids, partMap)
-}
-
-function generateFacialHairIds(rng: prng): (string | undefined)[] {
-  const hair = randomWeightPart(rng, [
-    'hair roff',
-    'hair 1cm',
-    'ltt touke',
-  ])
-
-  let beardPool: (string | WeightedPart)[] = [{ partId: 'beard bigger', weight: 3 }, 'beard 3mm', { partId: undefined, weight: 0.5 }]
-  if (hair === 'hair roff') {
-    beardPool = beardPool.filter((item: string | WeightedPart) => {
-      if (typeof item === 'string') {
-        return item !== 'beard 3mm'
+    const foo: WeightedPart[] = []
+    for (const a of gen) {
+      if (a === null || typeof a !== 'object') {
+        foo.push({ partId: a, weight: 1 })
+        continue
       }
 
-      return item.partId !== 'beard 3mm'
-    })
+      foo.push(a)
+    }
+
+    const b = randomWeightPart(rng, foo)
+    if (b === null) {
+      continue
+    }
+
+    ids.push(b)
+
   }
 
-  const beard = randomWeightPart(rng, beardPool)
-  if (hair === 'hair roff' && beard === 'hair 3mm') {
-    throw new Error('cannot have roff hair with 3mm beard')
+  const partMap = generatePartMapFromJson('../me-generator-images/', rulebook.parts)
 
-  }
-
-  return [hair, beard]
+  return convertPartIdsToParts(ids, partMap)
 }
 
 type PartMap = {
@@ -63,7 +41,7 @@ type PartMap = {
 }
 
 type PartId = string
-type WeightedPart = { partId: PartId | undefined, weight?: number }
+type WeightedPart = { partId: PartId | null, weight: number }
 
 function selectRandomElementByWeight<T>(rng: prng, input: T[], weights: number[]): T {
 
@@ -78,11 +56,7 @@ function selectRandomElementByWeight<T>(rng: prng, input: T[], weights: number[]
   return input[index]
 }
 
-function randomWeightPart(rng: prng, parts: (WeightedPart | PartId | undefined)[]): PartId | undefined {
-
-  function defined<T>(value: T | undefined): value is T {
-    return value !== undefined
-  }
+function randomWeightPart(rng: prng, parts: (WeightedPart | PartId | null)[]): PartId | null {
 
   const weightedParts: (WeightedPart)[] = []
 
@@ -90,7 +64,7 @@ function randomWeightPart(rng: prng, parts: (WeightedPart | PartId | undefined)[
 
     let weightedPart: WeightedPart
 
-    if (typeof part !== 'object') {
+    if (part === null || typeof part !== 'object') {
       weightedPart = { partId: part, weight: 1 }
     } else {
       weightedPart = part
@@ -122,13 +96,10 @@ function generatePartMapFromJson(basePath: string, data: { [name: string]: [numb
   return partMap
 }
 
-function convertPartIdsToParts(ids: (string | undefined)[], parts: PartMap): Part[] {
+function convertPartIdsToParts(ids: string[], parts: PartMap): Part[] {
   const ret: Part[] = []
 
   for (const id of ids) {
-    if (id === undefined) {
-      continue
-    }
 
     const part = parts[id]
 

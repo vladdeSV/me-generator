@@ -1,10 +1,4 @@
 import * as fs from 'fs'
-import { readFileSync } from 'fs'
-import { relative } from 'path'
-
-export function readJsonFileAs<T>(path: string): T {
-  return JSON.parse(readFileSync(path).toString('utf8')) as T
-}
 
 export type Part = {
   file: string
@@ -32,11 +26,6 @@ export function generate(config: DocumentConfiguration): string {
 
   for (const part of config.parts) {
 
-    if (part === null) {
-      continue
-    }
-
-    //
     data += `<g transform="translate(${part.x},${part.y})${part.scale ? ` scale(${part.scale})` : ''}">`
 
     const pseudoUniqueSvgId = Math.random().toString(36).substr(2, 5)
