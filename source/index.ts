@@ -1,11 +1,12 @@
 import { DocumentConfiguration, generate as generateSvg } from './svg-combiner'
 import { randomBytes } from 'crypto'
 import { generate } from './generator/v1'
+import * as path from 'path'
+import { Rulebook } from './rulebook'
+import { readJsonFileAs } from './utils'
 
 import express from 'express'
 import seedrandom from 'seedrandom'
-import { Rulebook } from './rulebook'
-import { readJsonFileAs } from './utils'
 
 export interface prng {
   (): number
@@ -52,8 +53,10 @@ app.get(
     const rng = seedrandom(seed)
 
     const config = readJsonFileAs<{ rulebook: string }>('./config.json')
-    const rulebook: Rulebook = readJsonFileAs<Rulebook>(config.rulebook)
+    const rulebookPath = config.rulebook
+    const rulebook: Rulebook = readJsonFileAs<Rulebook>(rulebookPath)
 
+    rulebook.path = path.join(path.dirname(rulebookPath), rulebook.path === undefined ? '.' : rulebook.path)
     console.log(`Generating by seed '${seed}'`)
     const documentConfiguration: DocumentConfiguration = {
       width: 850,

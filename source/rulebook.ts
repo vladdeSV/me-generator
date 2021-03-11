@@ -8,6 +8,7 @@ type PartSelection = string | null | {
 }
 
 export type Rulebook = {
+  path: string
   parts: PartDefinitions
   generation: (string | PartSelection[])[]
 }

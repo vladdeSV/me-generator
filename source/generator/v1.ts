@@ -31,7 +31,7 @@ export function generate(rng: prng, rulebook: Rulebook): Part[] {
 
   }
 
-  const partMap = generatePartMapFromJson('../me-generator-images/', rulebook.parts)
+  const partMap = generatePartMapFromJson(rulebook.path, rulebook.parts)
 
   return convertPartIdsToParts(ids, partMap)
 }
