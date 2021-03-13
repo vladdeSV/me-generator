@@ -11,4 +11,5 @@ export type Rulebook = {
   path: string
   parts: PartDefinitions
   generation: (string | PartSelection[])[]
+  rules: [string, 'disallow', string][]
 }
