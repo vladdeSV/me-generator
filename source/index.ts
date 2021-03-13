@@ -1,6 +1,6 @@
 import { DocumentConfiguration, generate as generateSvg } from './svg-combiner'
 import { randomBytes } from 'crypto'
-import { generate } from './generator/v1'
+import { generate } from './generator'
 import * as path from 'path'
 import { Rulebook } from './rulebook'
 import { readJsonFileAs } from './utils'

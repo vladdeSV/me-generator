@@ -1,7 +1,7 @@
-import { prng } from '../index'
-import { Part } from '../svg-combiner'
+import { prng } from './index'
+import { Part } from './svg-combiner'
 import * as path from 'path'
-import { Rulebook } from '../rulebook'
+import { Rulebook } from './rulebook'
 
 export function generate(rng: prng, rulebook: Rulebook): Part[] {
   const ids: string[] = []
