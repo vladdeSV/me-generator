@@ -1,39 +1,43 @@
 import { prng } from './index'
 import { Part } from './svg-combiner'
 import * as path from 'path'
-import { Rulebook } from './rulebook'
+import { PartSelection, Rulebook } from './rulebook'
 
 export function generate(rng: prng, rulebook: Rulebook): Part[] {
+  const ids = partIdsFromGeneration(rng, rulebook.generation)
+  const partMap = partMapFromJson(rulebook.path, rulebook.parts)
+
+  return convertPartIdsToParts(ids, partMap)
+}
+
+function partIdsFromGeneration(rng: prng, generation: (string | PartSelection[])[]): string[] {
   const ids: string[] = []
 
-  for (const gen of rulebook.generation) {
+  for (const gen of generation) {
     if (typeof gen === 'string') {
       ids.push(gen)
       continue
     }
 
-    const foo: WeightedPart[] = []
-    for (const a of gen) {
-      if (a === null || typeof a !== 'object') {
-        foo.push({ partId: a, weight: 1 })
+    const weightedParts: WeightedPart[] = []
+    for (const part of gen) {
+      if (part === null || typeof part !== 'object') {
+        weightedParts.push({ partId: part, weight: 1 })
         continue
       }
 
-      foo.push(a)
+      weightedParts.push(part)
     }
 
-    const b = randomWeightPart(rng, foo)
-    if (b === null) {
+    const partId = randomWeightPart(rng, weightedParts)
+    if (partId === null) {
       continue
     }
 
-    ids.push(b)
-
+    ids.push(partId)
   }
 
-  const partMap = generatePartMapFromJson(rulebook.path, rulebook.parts)
-
-  return convertPartIdsToParts(ids, partMap)
+  return ids
 }
 
 type PartMap = {
@@ -44,7 +48,6 @@ type PartId = string
 type WeightedPart = { partId: PartId | null, weight: number }
 
 function selectRandomElementByWeight<T>(rng: prng, input: T[], weights: number[]): T {
-
   if (input.length !== weights.length) {
     throw new Error('input and weight lengths must match')
   }
@@ -57,11 +60,9 @@ function selectRandomElementByWeight<T>(rng: prng, input: T[], weights: number[]
 }
 
 function randomWeightPart(rng: prng, parts: (WeightedPart | PartId | null)[]): PartId | null {
-
   const weightedParts: (WeightedPart)[] = []
 
   for (const part of parts) {
-
     let weightedPart: WeightedPart
 
     if (part === null || typeof part !== 'object') {
@@ -78,7 +79,7 @@ function randomWeightPart(rng: prng, parts: (WeightedPart | PartId | null)[]): P
   return selectRandomElementByWeight(rng, partIds, partWeights)
 }
 
-function generatePartMapFromJson(basePath: string, data: { [name: string]: [number, number] }): PartMap {
+function partMapFromJson(basePath: string, data: { [name: string]: [number, number] }): PartMap {
   const partMap: PartMap = {}
 
   for (const partId in data) {
@@ -100,7 +101,6 @@ function convertPartIdsToParts(ids: string[], parts: PartMap): Part[] {
   const ret: Part[] = []
 
   for (const id of ids) {
-
     const part = parts[id]
 
     if (part === undefined) {

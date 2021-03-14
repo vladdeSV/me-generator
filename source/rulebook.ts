@@ -2,7 +2,7 @@ type PartDefinitions = {
   [name: string]: [number, number]
 }
 
-type PartSelection = string | null | {
+export type PartSelection = string | null | {
   partId: string | null
   weight: number
 }
