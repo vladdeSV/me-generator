@@ -68,6 +68,7 @@ app.get(
 
     res.header({
       'Content-Type': 'image/svg+xml',
+      'Cache-Control': 'max-age=3600',
     })
 
     return res.send(data)
