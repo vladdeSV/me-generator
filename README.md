@@ -5,12 +5,12 @@ Generate an image with random pieces of clothing / cosmetics
 
 <table>
   <tr>
-    <td><img src="./resource/1.svg"></td>
-    <td><img src="./resource/2.svg"></td>
+    <td><img src="https://generator.vladde.me/?seed=foobar"></td>
+    <td><img src="https://generator.vladde.me/?seed=biz"></td>
   </tr>
   <tr>
-    <td><img src="./resource/3.svg"></td>
-    <td><img src="./resource/4.svg"></td>
+    <td><img src="https://generator.vladde.me/?seed=fljgknaaaaa2"></td>
+    <td><img src="https://generator.vladde.me/?seed=car"></td>
   </tr>
 </table>
 
