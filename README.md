@@ -1,7 +1,7 @@
-# me-generator
-Generate an image with random pieces of clothing / cosmetics
-
 **Note**: This generator is in alpha state, so any changes to the algorithm may occur until v1 is released. Specific seed will most likely not work reliably until then.
+
+# me-generator
+Generate an image with random pieces of clothing / cosmetics.
 
 <table>
   <tr>
@@ -13,6 +13,13 @@ Generate an image with random pieces of clothing / cosmetics
     <td><img src="https://generator.vladde.me/?seed=car"></td>
   </tr>
 </table>
+<div align="center">
+  <sub>
+
+Following examples are generated using [this rulebook](https://github.com/vladdeSV/me-generator-images/blob/main/rulebook.json) from [me-generator-images](https://github.com/vladdeSV/me-generator-images).
+
+  </sub>
+</div>
 
 ## Project
 The projects consists of multiple parts:
