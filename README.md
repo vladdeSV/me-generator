@@ -24,7 +24,7 @@ Examples generated using [this rulebook](https://github.com/vladdeSV/me-generato
 ## Project
 The projects consists of multiple parts:
 - *SVG combiner*, combines multiple `.svg` files into one
-- *Generator*, rulebook for how image should be combined (generating by generator version and seed)
+- *Generator*, rulebook for how image should be combined (generating by seed)
 - *Webservice*, allows for generating images rapidly, and in extesnion, from anywhere.
 
 ## Hack
