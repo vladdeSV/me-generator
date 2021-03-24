@@ -16,7 +16,7 @@ Generate an image with random pieces of clothing / cosmetics.
 <div align="center">
   <sub>
 
-Examples generated using [this rulebook](https://github.com/vladdeSV/me-generator-images/blob/main/rulebook.json) from [me-generator-images](https://github.com/vladdeSV/me-generator-images).
+Examples generated using [this rulebook](https://github.com/vladdeSV/me-generator-images/blob/main/rulebook.json) from [vladdeSV/me-generator-images](https://github.com/vladdeSV/me-generator-images).
 
   </sub>
 </div>
