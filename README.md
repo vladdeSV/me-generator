@@ -6,21 +6,21 @@ Generate an image with random pieces of clothing / cosmetics.
 <table>
   <tr>
     <td>
-      <img src="https://generator.vladde.me/?seed=foobar">
+      <a href="https://generator.vladde.me/?seed=foobar"><img src="https://generator.vladde.me/?seed=foobar"></a>
       <div align="center"><sub>seed: foobar</sub></div>
     </td>
     <td>
-      <img src="https://generator.vladde.me/?seed=biz">
+      <a href="https://generator.vladde.me/?seed=biz"><img src="https://generator.vladde.me/?seed=biz"></a>
       <div align="center"><sub>seed: biz</sub></div>
     </td>
   </tr>
   <tr>
     <td>
-      <img src="https://generator.vladde.me/?seed=fljgknaaaaa2">
+      <a href="https://generator.vladde.me/?seed=fljgknaaaaa2"><img src="https://generator.vladde.me/?seed=fljgknaaaaa2"></a>
       <div align="center"><sub>seed: fljgknaaaaa2</sub></div>
     </td>
     <td>
-      <img src="https://generator.vladde.me/?seed=car">
+      <a href="https://generator.vladde.me/?seed=car"><img src="https://generator.vladde.me/?seed=car"></a>
       <div align="center"><sub>seed: car</sub></div>
     </td>
   </tr>
