@@ -4,7 +4,6 @@ export type Part = {
   file: string
   x: number
   y: number
-  scale?: number
 }
 
 export type DocumentConfiguration = {
@@ -26,7 +25,7 @@ export function generate(config: DocumentConfiguration): string {
 
   for (const part of config.parts) {
 
-    data += `<g transform="translate(${part.x},${part.y})${part.scale ? ` scale(${part.scale})` : ''}">`
+    data += `<g transform="translate(${part.x},${part.y})">`
 
     const pseudoUniqueSvgId = Math.random().toString(36).substr(2, 5)
     const color = Math.round(Math.random() * 16777216) ^ 0x333333
