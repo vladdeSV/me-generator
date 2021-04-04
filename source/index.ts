@@ -6,15 +6,6 @@ import { Rulebook } from './rulebook'
 import { readJsonFileAs } from './utils'
 
 import express from 'express'
-import seedrandom from 'seedrandom'
-
-export interface prng {
-  (): number
-  double(): number
-  int32(): number
-  quick(): number
-  state(): seedrandom.State
-}
 
 const app = express()
 const PORT = 8000
@@ -50,7 +41,6 @@ app.get(
     }
 
     const seed = seedParameter ?? randomBytes(8).toString('hex')
-    const rng = seedrandom(seed)
 
     const config = readJsonFileAs<{ rulebook: string }>('./config.json')
     const rulebookPath = config.rulebook
@@ -61,7 +51,7 @@ app.get(
     const documentConfiguration: DocumentConfiguration = {
       width: 850,
       height: 270,
-      parts: generate(rng, rulebook),
+      parts: generate(rulebook, seed),
     }
 
     const data = generateSvg(documentConfiguration)

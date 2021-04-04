@@ -1,9 +1,19 @@
-import { prng } from './index'
 import { Part } from './svg-combiner'
-import * as path from 'path'
 import { PartSelection, Rulebook } from './rulebook'
+import * as path from 'path'
+import seedrandom from 'seedrandom'
 
-export function generate(rng: prng, rulebook: Rulebook): Part[] {
+interface prng {
+  (): number
+  double(): number
+  int32(): number
+  quick(): number
+  state(): seedrandom.State
+}
+
+export function generate(rulebook: Rulebook, seed: string): Part[] {
+
+  const rng = seedrandom(seed)
   const ids = partIdsFromGeneration(rng, rulebook.generation)
   const partMap = partMapFromJson(rulebook.path, rulebook.parts)
 
