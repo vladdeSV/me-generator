@@ -1,5 +1,7 @@
 **Note**: This generator is in alpha state, so any changes to the algorithm may occur until v1 is released. Specific seed will most likely not work reliably until then.
 
+Syntax for defining rules are still work in progress. Any changes may appear at any time.
+
 # me-generator
 Generate an image with random pieces of clothing / cosmetics.
 
