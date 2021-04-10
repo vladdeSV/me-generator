@@ -48,6 +48,9 @@ Yes. Although this project right now generates a person with clothes, there is n
 
 In essence, this is a glorified SVG-combiner.
 
+### Simple setup
+See this example project: *todo*
+
 ## Roadmap
 Nothing is set in stone. This is a passion project at best, and I will work on what I want when I feel like it. But in general, there are a few things I want to besides improving the codebase:
 - [ ] Allow for custom generator rules in simple JSON format. I would be so cool if any generation logic was a *simple* document, making it very hackable.
