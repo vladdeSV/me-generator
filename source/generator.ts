@@ -3,14 +3,6 @@ import { PartSelection, Rulebook } from './rulebook'
 import * as path from 'path'
 import seedrandom from 'seedrandom'
 
-interface prng {
-  (): number
-  double(): number
-  int32(): number
-  quick(): number
-  state(): seedrandom.State
-}
-
 export function generate(rulebook: Rulebook, seed: string): Part[] {
 
   const rng = seedrandom(seed)
@@ -19,6 +11,18 @@ export function generate(rulebook: Rulebook, seed: string): Part[] {
 
   return convertPartIdsToParts(ids, partMap)
 }
+
+interface prng {
+  (): number
+  double(): number
+  int32(): number
+  quick(): number
+  state(): seedrandom.State
+}
+
+type PartMap = { [name: string]: Part }
+type PartId = string
+type WeightedPart = { partId: PartId | null, weight: number }
 
 function partIdsFromGeneration(rng: prng, generation: (string | PartSelection[])[]): string[] {
   const ids: string[] = []
@@ -49,13 +53,6 @@ function partIdsFromGeneration(rng: prng, generation: (string | PartSelection[])
 
   return ids
 }
-
-type PartMap = {
-  [name: string]: Part
-}
-
-type PartId = string
-type WeightedPart = { partId: PartId | null, weight: number }
 
 function selectRandomElementByWeight<T>(rng: prng, input: T[], weights: number[]): T {
   if (input.length !== weights.length) {
