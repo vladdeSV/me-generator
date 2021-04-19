@@ -12,19 +12,12 @@ export function generate(rulebook: Rulebook, seed: string): Part[] {
   return convertPartIdsToParts(ids, partMap)
 }
 
-interface prng {
-  (): number
-  double(): number
-  int32(): number
-  quick(): number
-  state(): seedrandom.State
-}
-
+type PseudoRandomNumberGenerator = () => number
 type PartMap = { [name: string]: Part }
 type PartId = string
 type WeightedPart = { partId: PartId | null, weight: number }
 
-function partIdsFromGeneration(rng: prng, generation: (string | PartSelection[])[]): string[] {
+function partIdsFromGeneration(rng: PseudoRandomNumberGenerator, generation: (string | PartSelection[])[]): string[] {
   const ids: string[] = []
 
   for (const gen of generation) {
@@ -54,7 +47,7 @@ function partIdsFromGeneration(rng: prng, generation: (string | PartSelection[])
   return ids
 }
 
-function selectRandomElementByWeight<T>(rng: prng, input: T[], weights: number[]): T {
+function selectRandomElementByWeight<T>(rng: PseudoRandomNumberGenerator, input: T[], weights: number[]): T {
   if (input.length !== weights.length) {
     throw new Error('input and weight lengths must match')
   }
@@ -66,7 +59,7 @@ function selectRandomElementByWeight<T>(rng: prng, input: T[], weights: number[]
   return input[index]
 }
 
-function randomWeightPart(rng: prng, parts: (WeightedPart | PartId | null)[]): PartId | null {
+function randomWeightPart(rng: PseudoRandomNumberGenerator, parts: (WeightedPart | PartId | null)[]): PartId | null {
   const weightedParts: (WeightedPart)[] = []
 
   for (const part of parts) {
