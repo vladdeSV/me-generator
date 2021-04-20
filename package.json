@@ -27,6 +27,8 @@
     "eslint-plugin-import": "^2.22.1"
   },
   "dependencies": {
+    "@svgdotjs/svg.js": "^3.0.16",
+    "svgdom": "^0.1.8",
     "express": "^4.17.1",
     "seedrandom": "^3.0.5"
   }
