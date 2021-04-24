@@ -6,7 +6,7 @@ import { Rulebook } from './rulebook'
 import { readJsonFileAs } from './utils'
 import express from 'express'
 
-export function server() {
+(() => {
   const app = express()
   const PORT = 8000
 
@@ -68,4 +68,4 @@ export function server() {
   app.listen(PORT, () => {
     console.log(`[server]: server running at http://localhost:${PORT}`)
   })
-}
+})()
