@@ -6,7 +6,7 @@ import seedrandom from 'seedrandom'
 export function generate(rulebook: Rulebook, seed: string): Part[] {
 
   const rng = seedrandom(seed)
-  const ids = partIdsFromGeneration(rng, rulebook.generation)
+  const ids = partIdsFromRulebook(rng, rulebook)
   const partMap = partMapFromJson(rulebook.path, rulebook.parts)
 
   return convertPartIdsToParts(ids, partMap)
@@ -17,28 +17,43 @@ type PartMap = { [name: string]: Part }
 type PartId = string
 type WeightedPart = { partId: PartId | null, weight: number }
 
-function partIdsFromGeneration(rng: PseudoRandomNumberGenerator, generation: (string | PartSelection[])[]): string[] {
+function partIdsFromRulebook(rng: PseudoRandomNumberGenerator, rulebook: Rulebook): string[] {
   const ids: string[] = []
+  const blacklistedIds: string[] = []
 
+  const generation = rulebook.generation
   for (const gen of generation) {
+    let weightedParts: WeightedPart[] = []
+
     if (typeof gen === 'string') {
-      ids.push(gen)
-      continue
-    }
+      weightedParts.push({ partId: gen, weight: 1 })
+    } else {
 
-    const weightedParts: WeightedPart[] = []
-    for (const part of gen) {
-      if (part === null || typeof part !== 'object') {
-        weightedParts.push({ partId: part, weight: 1 })
-        continue
+      for (const part of gen) {
+        if (part === null || typeof part !== 'object') {
+
+          weightedParts.push({ partId: part, weight: 1 })
+          continue
+        }
+
+        weightedParts.push(part)
       }
-
-      weightedParts.push(part)
     }
+
+    weightedParts = weightedParts.filter(x => !blacklistedIds.includes(x.partId as string))
 
     const partId = randomWeightPart(rng, weightedParts)
     if (partId === null) {
       continue
+    }
+
+    for (const rule of rulebook.rules) {
+      const foo = rule[0]
+      if (partId === foo) {
+        console.log(`${partId} blacklists ${rule[2]}`)
+
+        blacklistedIds.push(rule[2])
+      }
     }
 
     ids.push(partId)
