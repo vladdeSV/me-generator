@@ -1,5 +1,5 @@
 import { Part } from './svg-combiner'
-import { PartSelection, Rulebook } from './rulebook'
+import { Rulebook } from './rulebook'
 import * as path from 'path'
 import seedrandom from 'seedrandom'
 
