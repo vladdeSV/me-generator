@@ -1,7 +1,12 @@
 node_modules/
 config.json
 out/
+
+# yarn 2 /wo zero-installs
 .yarn/*
+!.yarn/patches
 !.yarn/releases
 !.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
 .pnp.*
