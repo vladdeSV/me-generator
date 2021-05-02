@@ -8,21 +8,21 @@ Generate an image with random pieces of clothing / cosmetics.
 <table>
   <tr>
     <td>
-      <a href="https://generator.vladde.me/?seed=foobar"><img src="https://generator.vladde.me/?seed=foobar"></a>
+      <a href="https://generator.vladde.me/?seed=tacos"><img src="https://generator.vladde.me/?seed=tacos"></a>
       <div align="center"><sub>seed: foobar</sub></div>
     </td>
     <td>
-      <a href="https://generator.vladde.me/?seed=biz"><img src="https://generator.vladde.me/?seed=biz"></a>
+      <a href="https://generator.vladde.me/?seed=salsa"><img src="https://generator.vladde.me/?seed=salsa"></a>
       <div align="center"><sub>seed: biz</sub></div>
     </td>
   </tr>
   <tr>
     <td>
-      <a href="https://generator.vladde.me/?seed=fljgknaaaaa2"><img src="https://generator.vladde.me/?seed=fljgknaaaaa2"></a>
+      <a href="https://generator.vladde.me/?seed=guppy"><img src="https://generator.vladde.me/?seed=guppy"></a>
       <div align="center"><sub>seed: fljgknaaaaa2</sub></div>
     </td>
     <td>
-      <a href="https://generator.vladde.me/?seed=car"><img src="https://generator.vladde.me/?seed=car"></a>
+      <a href="https://generator.vladde.me/?seed=hello"><img src="https://generator.vladde.me/?seed=hello"></a>
       <div align="center"><sub>seed: car</sub></div>
     </td>
   </tr>
