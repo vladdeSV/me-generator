@@ -52,11 +52,12 @@ See this example project: *todo*
 
 ## Roadmap
 Nothing is set in stone. This is a passion project at best, and I will work on what I want when I feel like it. But in general, there are a few things I want to besides improving the codebase:
-- [ ] Allow for custom generator rules in simple JSON format. I would be so cool if any generation logic was a *simple* document, making it very hackable.
-   - [x] Parts generator
-   - [ ] Custom rules (disallow certain combinations, etc.)
-- [ ] Add more clothes.
-- [ ] `//todo: add more`
+- [ ] Custom rules
+   - [x] Custom part weight
+   - [x] Part disallows some other part
+   - [ ] Part require some other part
+ - [ ] Target groups of parts
+   - [ ] Multi-layered parts, sandwich parts between *groups* of SVG
 
 ## Why
 Have you heard of [The Binding of Isaac](https://store.steampowered.com/app/250900/The_Binding_of_Isaac_Rebirth/)?
