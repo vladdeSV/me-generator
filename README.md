@@ -41,17 +41,12 @@ The projects consists of multiple parts:
 - *Generator*, rulebook for how image should be combined (generating by seed)
 
 ## Hack
-> Can I hack it?
+Please keep in mind; in essence, this is a glorified SVG-combiner. An image is generated from a rulebook. This rulebook specifies the images which will be used, and all rules when generating the image.
 
-Yes. Although this project right now generates a person with clothes, there is nothing stopping you from changing what is being generated. It is a bit bulky, but with some effort you could make your own generator.
-
-In essence, this is a glorified SVG-combiner.
-
-### Simple setup
-See this example project: *todo*
+I highly recommend looking at the [example rulebook](https://github.com/vladdeSV/me-generator-images/blob/9984c360b9590fecf7120bb100297d3b573190fc/rulebook.json), or [start a discussion](https://github.com/vladdeSV/me-generator/discussions).
 
 ## Roadmap
-Nothing is set in stone. This is a passion project at best, and I will work on what I want when I feel like it. But in general, there are a few things I want to besides improving the codebase:
+Nothing is set in stone.
 - [ ] Custom rules
    - [x] Custom part weight
    - [x] Part disallows some other part
