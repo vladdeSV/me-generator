@@ -4,8 +4,7 @@
   "description": "Generate SVG from smaller parts",
   "main": "index.js",
   "scripts": {
-    "server": "ts-node source/test-server.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "ts-node source/test-server.ts"
   },
   "repository": {
     "type": "git",
