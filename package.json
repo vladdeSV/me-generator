@@ -2,7 +2,7 @@
   "name": "me-generator",
   "version": "0.0.1",
   "description": "Generate SVG from smaller parts",
-  "main": "index.js",
+  "main": "out/index.js",
   "scripts": {
     "server": "yarn ts-node source/test-server.ts"
   },
