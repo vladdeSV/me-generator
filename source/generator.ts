@@ -62,7 +62,7 @@ function partIdsFromRulebook(rng: PseudoRandomNumberGenerator, rulebook: Ruleboo
   return ids
 }
 
-function selectRandomElementByWeight<T>(rng: PseudoRandomNumberGenerator, input: T[], weights: number[]): T {
+function selectRandomElementByWeight(rng: PseudoRandomNumberGenerator, input: (PartId | null)[], weights: number[]): PartId | null {
   if (input.length !== weights.length) {
     throw new Error('input and weight lengths must match')
   }
@@ -71,7 +71,12 @@ function selectRandomElementByWeight<T>(rng: PseudoRandomNumberGenerator, input:
   const weightTotal = rng() * weights.reduce((sum: number, weight) => sum + weight, 0)
   const index = aggregatedWeights.filter(el => weightTotal >= el).length
 
-  return input[index]
+  const partId = input[index]
+  if(partId === undefined){
+    throw new Error() // fixme: better error
+  }
+
+  return partId
 }
 
 function randomWeightPart(rng: PseudoRandomNumberGenerator, parts: (WeightedPart | PartId | null)[]): PartId | null {
@@ -100,6 +105,10 @@ function partMapFromJson(basePath: string, data: { [name: string]: [number, numb
   for (const partId in data) {
     if (Object.prototype.hasOwnProperty.call(data, partId)) {
       const position = data[partId]
+
+      if(position === undefined) {
+        throw new Error() // fixme: better error
+      }
 
       partMap[partId] = {
         file: path.join(basePath, `${partId}.svg`),
