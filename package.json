@@ -4,6 +4,7 @@
   "description": "Generate SVG from smaller parts",
   "main": "out/index.js",
   "scripts": {
+    "build": "yarn tsc",
     "server": "yarn ts-node source/test-server.ts"
   },
   "repository": {
