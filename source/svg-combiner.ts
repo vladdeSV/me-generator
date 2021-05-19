@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 
 export type Part = {
-  file: string
+  filePath: string
   x: number
   y: number
 }
@@ -29,7 +29,7 @@ export function generate(config: DocumentConfiguration): string {
 
     const pseudoUniqueSvgId = Math.random().toString(36).substr(2, 5)
 
-    const svgData = fs.readFileSync(part.file)
+    const svgData = fs.readFileSync(part.filePath)
       .toString('utf8')
       .replace(/<\?xml.*?\?>/, '')
       .replace(/<!DOCTYPE.*?>/, '')

@@ -111,7 +111,7 @@ function partMapFromJson(basePath: string, data: { [name: string]: [number, numb
       }
 
       partMap[partId] = {
-        file: path.join(basePath, `${partId}.svg`),
+        filePath: path.join(basePath, `${partId}.svg`),
         x: position[0],
         y: position[1],
       }
