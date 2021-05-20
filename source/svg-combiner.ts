@@ -1,4 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
 import * as fs from 'fs'
+import * as xml2js from 'xml2js'
 
 export type Part = {
   filePath: string
@@ -13,22 +17,24 @@ export type DocumentConfiguration = {
 }
 
 /// generate svg data
-export function generate(config: DocumentConfiguration): string {
-  let data = ''
+export async function generate(config: DocumentConfiguration): Promise<string> {
 
-  // fixme use some sort of dom generator
-  // this is beyond horrible
-  // ...
-  // but it works!
-
-  data += `<svg fill="none" width="${config.width}" height="${config.height}" xmlns="http://www.w3.org/2000/svg">`
+  const base: XmlTag = {
+    '#name': 'svg',
+    $: {
+      fill: 'none',
+      width: String(config.width),
+      height: String(config.height),
+      xmlns: 'http://www.w3.org/2000/svg',
+      'xmlns:serif': 'http://www.serif.com/',
+      'xmlns:xlink':'http://www.w3.org/1999/xlink',
+    },
+    $$: [],
+  }
 
   for (const part of config.parts) {
 
-    data += `<g transform="translate(${part.x},${part.y})">`
-
     const pseudoUniqueSvgId = Math.random().toString(36).substr(2, 5)
-
     const svgData = fs.readFileSync(part.filePath)
       .toString('utf8')
       .replace(/<\?xml.*?\?>/, '')
@@ -36,11 +42,66 @@ export function generate(config: DocumentConfiguration): string {
       .replace(/width="100%" height="100%" viewBox="0 0 (\d+) (\d+)"/, 'width="$1" height="$2"')
       .replace(/_clip(\d+)/g, `_clip$1_${pseudoUniqueSvgId}`)
 
-    data += svgData
-    data += '</g>'
+    const options: xml2js.ParserOptions = {
+      strict: true,
+      explicitArray: false,
+      explicitChildren: true,
+      preserveChildrenOrder: true,
+    }
+
+    const data = (await xml2js.parseStringPromise(svgData, options)).svg as XmlTag
+    for (const child of data.$$ ?? []) {
+      if(!child.$) {
+        child.$ = {}
+      }
+
+      // todo: i am wildly copying tags from the parent svg.
+      //       most likely i am missing a few
+      
+      if(data.$?.style) {
+        child.$.style = data.$?.style
+      }
+
+      const translate = `translate(${part.x},${part.y})`
+      child.$.transform = child.$.transform ? `${child.$.transform} ${translate}` : translate
+
+      if(!base.$$) {
+        throw new Error('we broke reality')
+      }
+
+      base.$$.push(child)
+    }
   }
 
-  data += '</svg>'
+  return buildXmlFromJsOrderedChildren(base)
+}
 
-  return data
+type XmlTag = {
+  $?: {[name: string]: string}
+  $$?: XmlTag[]
+  '#name': string
+}
+
+/*
+  Assuming XML parser options are:
+    - strict: true,
+    - explicitArray: false,
+    - explicitChildren: true,
+    - preserveChildrenOrder: true,
+*/
+function buildXmlFromJsOrderedChildren(xml: XmlTag): string {
+  
+  const tagName = xml['#name']
+  const attributes = xml.$ ?? {}
+  const children = xml.$$
+
+  const attributesString = Object.keys(attributes).map(key => `${key}="${attributes[key]}"`).join(' ')
+
+  if(children === undefined) {
+    return `<${tagName} ${attributesString}/>`
+  }
+
+  return `<${tagName} ${attributesString}>
+  ${children.map(child => buildXmlFromJsOrderedChildren(child)).join('\n')}
+</${tagName}>`
 }
