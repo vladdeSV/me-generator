@@ -57,9 +57,9 @@ export async function generate(config: DocumentConfiguration): Promise<string> {
 
       // todo: i am wildly copying tags from the parent svg.
       //       most likely i am missing a few
-      
+
       if(data.$?.style) {
-        child.$.style = data.$?.style
+        child.$.style = data.$?.style // fixme might override
       }
 
       const translate = `translate(${part.x},${part.y})`
