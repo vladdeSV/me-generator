@@ -28,6 +28,7 @@ export async function generate(config: DocumentConfiguration): Promise<string> {
       xmlns: 'http://www.w3.org/2000/svg',
       'xmlns:serif': 'http://www.serif.com/',
       'xmlns:xlink':'http://www.w3.org/1999/xlink',
+      'xmlns:generator':'http://foo',
     },
     $$: [],
   }
@@ -57,6 +58,10 @@ export async function generate(config: DocumentConfiguration): Promise<string> {
 
       // todo: i am wildly copying tags from the parent svg.
       //       most likely i am missing a few
+
+      if(child.$.id) {
+        child.$['generator:id'] = `foo#${child.$.id}`
+      }
 
       if(data.$?.style) {
         child.$.style = data.$?.style // fixme might override
