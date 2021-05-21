@@ -49,8 +49,8 @@ export async function generate(config: DocumentConfiguration): Promise<string> {
       preserveChildrenOrder: true,
     }
 
-    const data = (await xml2js.parseStringPromise(svgData, options)).svg as XmlTag
-    for (const child of data.$$ ?? []) {
+    const partData = (await xml2js.parseStringPromise(svgData, options)).svg as XmlTag
+    for (const child of partData.$$ ?? []) {
       if(!child.$) {
         child.$ = {}
       }
@@ -62,8 +62,8 @@ export async function generate(config: DocumentConfiguration): Promise<string> {
         child.$.id = `foo#${child.$.id}` //fixme get part name
       }
 
-      if(data.$?.style) {
-        child.$.style = data.$?.style // fixme might override
+      if(partData.$?.style) {
+        child.$.style = partData.$?.style // fixme might override
       }
 
       const translate = `translate(${part.x},${part.y})`
@@ -77,7 +77,7 @@ export async function generate(config: DocumentConfiguration): Promise<string> {
     }
   }
 
-  return buildXmlFromJsOrderedChildren(base)
+  return xmlFromObject(base)
 }
 
 type XmlTag = {
@@ -93,7 +93,7 @@ type XmlTag = {
     - explicitChildren: true,
     - preserveChildrenOrder: true,
 */
-function buildXmlFromJsOrderedChildren(xml: XmlTag): string {
+function xmlFromObject(xml: XmlTag): string {
   
   const tagName = xml['#name']
   const attributes = xml.$ ?? {}
@@ -108,6 +108,6 @@ function buildXmlFromJsOrderedChildren(xml: XmlTag): string {
   }
 
   return `<${tagName} ${attributesString}>
-  ${children.map(child => buildXmlFromJsOrderedChildren(child)).join('\n')}
+  ${children.map(child => xmlFromObject(child)).join('\n')}
 </${tagName}>`
 }
