@@ -28,7 +28,6 @@ export async function generate(config: DocumentConfiguration): Promise<string> {
       xmlns: 'http://www.w3.org/2000/svg',
       'xmlns:serif': 'http://www.serif.com/',
       'xmlns:xlink':'http://www.w3.org/1999/xlink',
-      'xmlns:generator':'http://foo',
     },
     $$: [],
   }
@@ -60,7 +59,7 @@ export async function generate(config: DocumentConfiguration): Promise<string> {
       //       most likely i am missing a few
 
       if(child.$.id) {
-        child.$['generator:id'] = `foo#${child.$.id}`
+        child.$.id = `foo#${child.$.id}` //fixme get part name
       }
 
       if(data.$?.style) {
