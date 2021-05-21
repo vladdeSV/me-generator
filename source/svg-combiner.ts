@@ -5,6 +5,7 @@ import * as fs from 'fs'
 import * as xml2js from 'xml2js'
 
 export type Part = {
+  name: string
   filePath: string
   x: number
   y: number
