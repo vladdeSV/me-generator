@@ -95,7 +95,9 @@ function buildXmlFromJsOrderedChildren(xml: XmlTag): string {
   const attributes = xml.$ ?? {}
   const children = xml.$$
 
-  const attributesString = Object.keys(attributes).map(key => `${key}="${attributes[key]}"`).join(' ')
+  const attributesString = Object.keys(attributes).map(key => {
+    return`${key}="${attributes[key]}"`
+  }).join(' ')
 
   if(children === undefined) {
     return `<${tagName} ${attributesString}/>`
