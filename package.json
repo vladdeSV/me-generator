@@ -21,6 +21,7 @@
     "@types/express": "^4.17.11",
     "@types/node": "^15.3.0",
     "@types/seedrandom": "^3.0.0",
+    "@types/xml2js": "^0",
     "@typescript-eslint/eslint-plugin": "^4.23.0",
     "@typescript-eslint/parser": "^4.23.0",
     "eslint": "^7.26.0",
@@ -31,6 +32,7 @@
     "typescript": "^4.2.4"
   },
   "dependencies": {
-    "seedrandom": "^3.0.5"
+    "seedrandom": "^3.0.5",
+    "xml2js": "^0.4.23"
   }
 }

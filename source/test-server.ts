@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { DocumentConfiguration, generate as generateSvg } from './svg-combiner'
 import { randomBytes } from 'crypto'
 import { generate } from './generator'
@@ -12,7 +13,7 @@ import express from 'express'
 
   app.get(
     '/',
-    (req, res) => {
+    async (req, res): Promise<any> => {
 
       const verifySeed = (seed: unknown): string | undefined => {
 
@@ -54,7 +55,7 @@ import express from 'express'
         parts: generate(rulebook, seed),
       }
 
-      const data = generateSvg(documentConfiguration)
+      const data = await generateSvg(documentConfiguration)
 
       res.header({
         'Content-Type': 'image/svg+xml',
