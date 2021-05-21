@@ -28,7 +28,7 @@ export async function generate(config: DocumentConfiguration): Promise<string> {
       height: String(config.height),
       xmlns: 'http://www.w3.org/2000/svg',
       'xmlns:serif': 'http://www.serif.com/',
-      'xmlns:xlink':'http://www.w3.org/1999/xlink',
+      'xmlns:xlink': 'http://www.w3.org/1999/xlink',
     },
     $$: [],
   }
@@ -82,7 +82,7 @@ export async function generate(config: DocumentConfiguration): Promise<string> {
 }
 
 type XmlTag = {
-  $?: {[name: string]: string}
+  $?: { [name: string]: string }
   $$?: XmlTag[]
   '#name': string
 }
@@ -95,16 +95,16 @@ type XmlTag = {
     - preserveChildrenOrder: true,
 */
 function xmlFromObject(xml: XmlTag): string {
-  
+
   const tagName = xml['#name']
   const attributes = xml.$ ?? {}
   const children = xml.$$
 
   const attributesString = Object.keys(attributes).map(key => {
-    return`${key}="${attributes[key]}"`
+    return `${key}="${attributes[key]}"`
   }).join(' ')
 
-  if(children === undefined) {
+  if (children === undefined) {
     return `<${tagName} ${attributesString}/>`
   }
 

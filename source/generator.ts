@@ -72,7 +72,7 @@ function selectRandomElementByWeight(rng: PseudoRandomNumberGenerator, input: (P
   const index = aggregatedWeights.filter(el => weightTotal >= el).length
 
   const partId = input[index]
-  if(partId === undefined){
+  if (partId === undefined) {
     throw new Error() // fixme: better error
   }
 
@@ -106,7 +106,7 @@ function partMapFromJson(basePath: string, data: { [name: string]: [number, numb
     if (Object.prototype.hasOwnProperty.call(data, partId)) {
       const position = data[partId]
 
-      if(position === undefined) {
+      if (position === undefined) {
         throw new Error() // fixme: better error
       }
 
