@@ -51,30 +51,30 @@ export async function generate(config: DocumentConfiguration): Promise<string> {
     }
 
     const partData = (await xml2js.parseStringPromise(svgData, options)).svg as XmlTag
-    for (const child of partData.$$ ?? []) {
-      if(!child.$) {
-        child.$ = {}
+    for (const element of partData.$$ ?? []) {
+
+      element.$ = element.$ || {}
+
+      const newElement = {
+        $: {} as { [name: string]: string },
+        $$: [] as XmlTag[],
+        '#name': 'g',
       }
 
-      // todo: i am wildly copying tags from the parent svg.
-      //       most likely i am missing a few
+      newElement.$.partId = part.name
+      newElement.$.transform = `translate(${part.x},${part.y})`
 
-      if(child.$.id) {
-        child.$.id = `foo#${child.$.id}` //fixme get part name
+      if (partData.$?.style) {
+        newElement.$.style = partData.$.style // fixme might override
       }
 
-      if(partData.$?.style) {
-        child.$.style = partData.$?.style // fixme might override
-      }
-
-      const translate = `translate(${part.x},${part.y})`
-      child.$.transform = child.$.transform ? `${child.$.transform} ${translate}` : translate
-
-      if(!base.$$) {
+      if (!base.$$) {
         throw new Error('we broke reality')
       }
 
-      base.$$.push(child)
+      newElement.$$.push(element)
+
+      base.$$.push(newElement)
     }
   }
 
