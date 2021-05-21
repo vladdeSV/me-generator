@@ -83,7 +83,7 @@ type XmlTag = {
 }
 
 /*
-  Assuming XML parser options are:
+  Assuming `xml2js` parser options are:
     - strict: true,
     - explicitArray: false,
     - explicitChildren: true,
