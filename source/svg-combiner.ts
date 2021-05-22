@@ -19,7 +19,7 @@ export type DocumentConfiguration = {
 }
 
 /// generate svg data
-export async function generate(config: DocumentConfiguration, indexes?: IndexRule[]): Promise<string> {
+export async function generate(config: DocumentConfiguration, indexRules?: IndexRule[]): Promise<string> {
 
   const base: XmlTag = {
     '#name': 'svg',
@@ -75,8 +75,8 @@ export async function generate(config: DocumentConfiguration, indexes?: IndexRul
     }
   }
 
-  if (base.$$ && indexes) {
-    base.$$ = foo(base.$$, indexes)
+  if (base.$$ && indexRules) {
+    base.$$ = foo(base.$$, indexRules)
   }
 
   return xmlFromObject(base)
