@@ -67,6 +67,10 @@ function selectRandomElementByWeight(rng: PseudoRandomNumberGenerator, input: (P
     throw new Error('input and weight lengths must match')
   }
 
+  if(input.length === 0) {
+    return null
+  }
+
   const aggregatedWeights = weights.map((sum => (value: number) => sum += value)(0))
   const weightTotal = rng() * weights.reduce((sum: number, weight) => sum + weight, 0)
   const index = aggregatedWeights.filter(el => weightTotal >= el).length
