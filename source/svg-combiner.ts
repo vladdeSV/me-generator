@@ -76,7 +76,7 @@ export async function generate(config: DocumentConfiguration, indexRules?: Index
   }
 
   if (base.$$ && indexRules) {
-    base.$$ = foo(base.$$, indexRules)
+    base.$$ = rearrangeXmlTagsByIndexRules(base.$$, indexRules)
   }
 
   return xmlFromObject(base)
@@ -114,9 +114,9 @@ function xmlFromObject(xml: XmlTag): string {
 </${tagName}>`
 }
 
-export function foo(childElements: XmlTag[], indexes: IndexRule[]): XmlTag[] {
+export function rearrangeXmlTagsByIndexRules(tags: XmlTag[], indexes: IndexRule[]): XmlTag[] {
 
-  let returnArray = childElements.slice() // copy array
+  let mutableTags = tags.slice() // copy array
 
   for (const indexRule of indexes) {
 
@@ -128,6 +128,7 @@ export function foo(childElements: XmlTag[], indexes: IndexRule[]): XmlTag[] {
       console.log(`a, invalid identifier: '${indexRule[0]}'. skipping ...`)
       continue
     }
+
     if (!b) {
       console.log(`b, invalid identifier: '${indexRule[2]}'. skipping ...`)
       continue
@@ -135,8 +136,7 @@ export function foo(childElements: XmlTag[], indexes: IndexRule[]): XmlTag[] {
 
     // fixme: ugly as h*ck to divide array like this
 
-    const foo = (child: XmlTag) => {
-
+    const shouldTagBeMoved = (child: XmlTag) => {
       let shouldBeMoved = true
 
       if (a.elementId) {
@@ -146,10 +146,10 @@ export function foo(childElements: XmlTag[], indexes: IndexRule[]): XmlTag[] {
       return shouldBeMoved && (child.$?.parent === a.partId)
     }
 
-    const toBeMoved = childElements.filter(foo)
-    const foobar = returnArray.filter(x => !foo(x))
+    const tagsToBeMoved = tags.filter(x => shouldTagBeMoved(x))
+    const tempRearranged = mutableTags.filter(x => !shouldTagBeMoved(x))
 
-    const satisifiedElement = foobar.find(x => {
+    const satisifiedElement = tempRearranged.find(x => {
       const childParentId = x.$?.parent
       const childElementId = x.$?.id
       return childParentId === b.partId && (b.elementId ? childElementId === b.elementId : true)
@@ -160,31 +160,24 @@ export function foo(childElements: XmlTag[], indexes: IndexRule[]): XmlTag[] {
       continue
     }
 
-    foobar.splice(foobar.indexOf(satisifiedElement) + (type === 'over' ? 1 : 0), 0, ...toBeMoved)
-    returnArray = foobar
-
-    /*
-
-    let a: XmlTag | undefined
-
-    if (!a) {
-      continue
-    }
-    */
+    // insert tags at specified element
+    tempRearranged.splice(
+      tempRearranged.indexOf(satisifiedElement) + (type === 'over' ? 1 : 0),
+      0,
+      ...tagsToBeMoved,
+    )
+    
+    mutableTags = tempRearranged
   }
 
-  /*
-  // fixme: implement index rules
-  const removed = a.splice(5, 1)
-  if (removed) {
-    a.splice(a.length - 5, 0, ...removed)
-  }
-  */
-
-  return returnArray
+  return mutableTags
 }
 
-type PartIdentifier = { partId: string, elementId: string | undefined }
+type PartIdentifier = {
+  partId: string
+  elementId: string | undefined
+}
+
 function parsePartIdentifier(input: string): PartIdentifier | undefined {
   const regexResult = /^([ \w]+)(?:#(.+))?$/.exec(input)
 
