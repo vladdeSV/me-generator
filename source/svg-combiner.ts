@@ -61,7 +61,8 @@ export async function generate(config: DocumentConfiguration): Promise<string> {
         '#name': 'g',
       }
 
-      newElement.$.partId = part.name
+      newElement.$.parent = part.name
+      newElement.$.id = element.$?.id
       newElement.$.transform = `translate(${part.x},${part.y})`
 
       if (partData.$?.style) {
