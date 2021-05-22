@@ -37,12 +37,7 @@ export async function generate(config: DocumentConfiguration, indexes?: IndexRul
   for (const part of config.parts) {
 
     const pseudoUniqueSvgId = Math.random().toString(36).substr(2, 5)
-    const svgData = fs.readFileSync(part.filePath)
-      .toString('utf8')
-      .replace(/<\?xml.*?\?>/, '')
-      .replace(/<!DOCTYPE.*?>/, '')
-      .replace(/width="100%" height="100%" viewBox="0 0 (\d+) (\d+)"/, 'width="$1" height="$2"')
-      .replace(/_clip(\d+)/g, `_clip$1_${pseudoUniqueSvgId}`)
+    const svgData = fs.readFileSync(part.filePath, { encoding: 'utf-8' }).replace(/_clip(\d+)/g, `_clip$1_${pseudoUniqueSvgId}`)
 
     const options: xml2js.ParserOptions = {
       strict: true,
