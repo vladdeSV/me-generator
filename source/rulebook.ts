@@ -1,15 +1,15 @@
-type PartDefinitions = {
-  [name: string]: [number, number]
-}
+export type BlocklistRule = [string, 'disallow', string]
+export type IndexRule = [string, 'over' | 'under', string]
 
-export type PartSelection = string | null | {
+type PartSelection = string | null | {
   partId: string | null
   weight: number
 }
 
 export type Rulebook = {
   path: string
-  parts: PartDefinitions
+  parts: { [name: string]: [number, number] }
   generation: (string | PartSelection[])[]
-  rules: [string, 'disallow', string][]
+  blocklist: BlocklistRule[]
+  indexes: IndexRule[]
 }

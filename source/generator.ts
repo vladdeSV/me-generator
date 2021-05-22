@@ -47,7 +47,7 @@ function partIdsFromRulebook(rng: PseudoRandomNumberGenerator, rulebook: Ruleboo
       continue
     }
 
-    for (const rule of rulebook.rules ?? []) {
+    for (const rule of rulebook.blocklist ?? []) {
       const foo = rule[0]
       if (partId === foo) {
         console.log(`${partId} blacklists ${rule[2]}`)
