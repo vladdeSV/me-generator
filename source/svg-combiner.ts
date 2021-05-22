@@ -121,25 +121,59 @@ function xmlFromObject(xml: XmlTag): string {
 
 export function foo(childElements: XmlTag[], indexes: IndexRule[]): XmlTag[] {
 
-  const returnArray = childElements.slice()
+  let returnArray = childElements.slice() // copy array
 
   for (const indexRule of indexes) {
 
-    const reg = /^(\w+)(?:#(.+))?$/.exec(indexRule[0])
+    const a = parsePartIdentifier(indexRule[0])
+    const b = parsePartIdentifier(indexRule[2])
+    const type: 'over' | 'under' = indexRule[1]
 
-    if (!reg?.[1]) {
-      console.log(`unparseable rule '${indexRule[0]}'`)
+    if (!a) {
+      console.log(`a, invalid identifier: '${indexRule[0]}'. skipping ...`)
+      continue
+    }
+    if (!b) {
+      console.log(`b, invalid identifier: '${indexRule[2]}'. skipping ...`)
       continue
     }
 
-    const partId: string = reg[1]
-    const elementId: string | undefined = reg[2]
-    console.log(partId, elementId)
+    // fixme: ugly as h*ck to divide array like this
+
+    const foo = (child: XmlTag) => {
+
+      let shouldBeMoved = true
+
+      if (a.elementId) {
+        shouldBeMoved = child.$?.id === a.elementId
+      }
+
+      return shouldBeMoved && (child.$?.parent === a.partId)
+    }
+
+    const toBeMoved = childElements.filter(foo)
+    const foobar = returnArray.filter(x => !foo(x))
+
+    const satisifiedElement = foobar.find(x => {
+      const childParentId = x.$?.parent
+      const childElementId = x.$?.id
+      return childParentId === b.partId && (b.elementId ? childElementId === b.elementId : true)
+    })
+
+    if (satisifiedElement === undefined) {
+      console.log('cannot find part with element id')
+      continue
+    }
+
+    foobar.splice(foobar.indexOf(satisifiedElement) + (type === 'over' ? 1 : 0), 0, ...toBeMoved)
+    returnArray = foobar
 
     /*
-    for (const child of childElements) {
 
-      if ()
+    let a: XmlTag | undefined
+
+    if (!a) {
+      continue
     }
     */
   }
@@ -153,4 +187,21 @@ export function foo(childElements: XmlTag[], indexes: IndexRule[]): XmlTag[] {
   */
 
   return returnArray
+}
+
+type PartIdentifier = { partId: string, elementId: string | undefined }
+function parsePartIdentifier(input: string): PartIdentifier | undefined {
+  const regexResult = /^([ \w]+)(?:#(.+))?$/.exec(input)
+
+  if (!regexResult?.[1]) {
+    return undefined
+  }
+
+  const partId: string = regexResult[1]
+  const elementId: string | undefined = regexResult[2]
+
+  return {
+    partId,
+    elementId,
+  }
 }
