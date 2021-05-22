@@ -119,14 +119,38 @@ function xmlFromObject(xml: XmlTag): string {
 </${tagName}>`
 }
 
-function foo(arr: XmlTag[], indexes: IndexRule[]): XmlTag[] {
+export function foo(childElements: XmlTag[], indexes: IndexRule[]): XmlTag[] {
 
+  const returnArray = childElements.slice()
+
+  for (const indexRule of indexes) {
+
+    const reg = /^(\w+)(?:#(.+))?$/.exec(indexRule[0])
+
+    if (!reg?.[1]) {
+      console.log(`unparseable rule '${indexRule[0]}'`)
+      continue
+    }
+
+    const partId: string = reg[1]
+    const elementId: string | undefined = reg[2]
+    console.log(partId, elementId)
+
+    /*
+    for (const child of childElements) {
+
+      if ()
+    }
+    */
+  }
+
+  /*
   // fixme: implement index rules
-  const a = arr.slice()
   const removed = a.splice(5, 1)
   if (removed) {
     a.splice(a.length - 5, 0, ...removed)
   }
+  */
 
-  return a
+  return returnArray
 }
