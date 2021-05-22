@@ -55,7 +55,7 @@ import express from 'express'
         parts: generate(rulebook, seed),
       }
 
-      const data = await generateSvg(documentConfiguration)
+      const data = await generateSvg(documentConfiguration, rulebook.indexes)
 
       res.header({
         'Content-Type': 'image/svg+xml',

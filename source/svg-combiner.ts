@@ -3,6 +3,7 @@
 
 import * as fs from 'fs'
 import * as xml2js from 'xml2js'
+import { IndexRule } from './rulebook'
 
 export type Part = {
   name: string
@@ -18,7 +19,7 @@ export type DocumentConfiguration = {
 }
 
 /// generate svg data
-export async function generate(config: DocumentConfiguration): Promise<string> {
+export async function generate(config: DocumentConfiguration, indexes?: IndexRule[]): Promise<string> {
 
   const base: XmlTag = {
     '#name': 'svg',
@@ -79,6 +80,10 @@ export async function generate(config: DocumentConfiguration): Promise<string> {
     }
   }
 
+  if (base.$$ && indexes) {
+    base.$$ = foo(base.$$, indexes)
+  }
+
   return xmlFromObject(base)
 }
 
@@ -112,4 +117,16 @@ function xmlFromObject(xml: XmlTag): string {
   return `<${tagName} ${attributesString}>
   ${children.map(child => xmlFromObject(child)).join('\n')}
 </${tagName}>`
+}
+
+function foo(arr: XmlTag[], indexes: IndexRule[]): XmlTag[] {
+
+  // fixme: implement index rules
+  const a = arr.slice()
+  const removed = a.splice(5, 1)
+  if (removed) {
+    a.splice(a.length - 5, 0, ...removed)
+  }
+
+  return a
 }
