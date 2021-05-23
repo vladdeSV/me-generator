@@ -18,6 +18,17 @@ export type DocumentConfiguration = {
   parts: Part[]
 }
 
+type XmlTag = {
+  $?: { [name: string]: string }
+  $$?: XmlTag[]
+  '#name': string
+}
+
+type DefinedXmlTag = XmlTag & {
+  $: { [name: string]: string }
+  $$: XmlTag[]
+}
+
 // global parser options for this file
 const options: xml2js.ParserOptions = Object.freeze({
   strict: true,
@@ -29,7 +40,8 @@ const options: xml2js.ParserOptions = Object.freeze({
 /// generate svg data
 export async function generate(config: DocumentConfiguration, indexRules?: IndexRule[]): Promise<string> {
 
-  const base: XmlTag = {
+  // const namespaces = [] //todo: add all namespaces from all parts at the end
+  const base: DefinedXmlTag = {
     '#name': 'svg',
     $: {
       fill: 'none',
@@ -43,13 +55,19 @@ export async function generate(config: DocumentConfiguration, indexRules?: Index
   }
 
   for (const part of config.parts) {
-
     const pseudoUniqueId = Math.random().toString(36).substr(2, 5)
     const svgData = fs.readFileSync(part.filePath, { encoding: 'utf-8' })
       .replace(/_clip(\d+)/g, `_clip$1_${pseudoUniqueId}`)
 
-    const partData = (await xml2js.parseStringPromise(svgData, options)).svg as XmlTag
-    for (const element of partData.$$ ?? []) {
+    const parseData = await xml2js.parseStringPromise(svgData, options)
+    const data = parseData.svg as XmlTag | undefined
+
+    if (!data) {
+      console.log(`invalid svg '${part.name}'. skipping ...`)
+      continue
+    }
+
+    for (const element of data.$$ ?? []) {
 
       element.$ = element.$ || {}
 
@@ -61,14 +79,15 @@ export async function generate(config: DocumentConfiguration, indexRules?: Index
 
       newElement.$.parent = part.name
       newElement.$.id = element.$?.id
-      newElement.$.transform = `translate(${part.x},${part.y})`
 
-      if (partData.$?.style) {
-        newElement.$.style = partData.$.style // fixme might override
+      if (newElement.$.transform) {
+        console.log('found part which contains a transform. this is not yet supported')
       }
 
-      if (!base.$$) {
-        throw new Error('we broke reality')
+      newElement.$.transform = `translate(${part.x},${part.y})`
+
+      if (data.$?.style) {
+        newElement.$.style = data.$.style // fixme might override
       }
 
       newElement.$$.push(element)
@@ -82,12 +101,6 @@ export async function generate(config: DocumentConfiguration, indexRules?: Index
   }
 
   return xmlFromObject(base)
-}
-
-type XmlTag = {
-  $?: { [name: string]: string }
-  $$?: XmlTag[]
-  '#name': string
 }
 
 /*
@@ -124,7 +137,7 @@ function rearrangeXmlTagsByIndexRules(tags: XmlTag[], indexRules: IndexRule[]): 
 
     const a = parsePartIdentifier(indexRule[0])
     const b = parsePartIdentifier(indexRule[2])
-    const type: 'over' | 'under' = indexRule[1]
+    const type = indexRule[1]
 
     if (!a) {
       console.log(`a, invalid identifier: '${indexRule[0]}'. skipping ...`)
@@ -133,6 +146,11 @@ function rearrangeXmlTagsByIndexRules(tags: XmlTag[], indexRules: IndexRule[]): 
 
     if (!b) {
       console.log(`b, invalid identifier: '${indexRule[2]}'. skipping ...`)
+      continue
+    }
+
+    if(type !== 'over' && type !== 'under') {
+      console.log(`invalid placement operator '${type}'. skipping ...`)
       continue
     }
 
@@ -159,7 +177,7 @@ function rearrangeXmlTagsByIndexRules(tags: XmlTag[], indexRules: IndexRule[]): 
       0,
       ...tagsToBeMoved,
     )
-    
+
     // update order of tags
     mutableTags = tempRearrangedTags
   }
