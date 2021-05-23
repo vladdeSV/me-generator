@@ -18,6 +18,14 @@ export type DocumentConfiguration = {
   parts: Part[]
 }
 
+// global parser options for this file
+const options: xml2js.ParserOptions = Object.freeze({
+  strict: true,
+  explicitArray: false,
+  explicitChildren: true,
+  preserveChildrenOrder: true,
+})
+
 /// generate svg data
 export async function generate(config: DocumentConfiguration, indexRules?: IndexRule[]): Promise<string> {
 
@@ -36,15 +44,9 @@ export async function generate(config: DocumentConfiguration, indexRules?: Index
 
   for (const part of config.parts) {
 
-    const pseudoUniqueSvgId = Math.random().toString(36).substr(2, 5)
-    const svgData = fs.readFileSync(part.filePath, { encoding: 'utf-8' }).replace(/_clip(\d+)/g, `_clip$1_${pseudoUniqueSvgId}`)
-
-    const options: xml2js.ParserOptions = {
-      strict: true,
-      explicitArray: false,
-      explicitChildren: true,
-      preserveChildrenOrder: true,
-    }
+    const pseudoUniqueId = Math.random().toString(36).substr(2, 5)
+    const svgData = fs.readFileSync(part.filePath, { encoding: 'utf-8' })
+      .replace(/_clip(\d+)/g, `_clip$1_${pseudoUniqueId}`)
 
     const partData = (await xml2js.parseStringPromise(svgData, options)).svg as XmlTag
     for (const element of partData.$$ ?? []) {
