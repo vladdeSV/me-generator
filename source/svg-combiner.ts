@@ -40,7 +40,6 @@ const options: xml2js.ParserOptions = Object.freeze({
 /// generate svg data
 export async function generate(config: DocumentConfiguration, indexRules?: IndexRule[]): Promise<string> {
 
-  // const namespaces = [] //todo: add all namespaces from all parts at the end
   const base: DefinedXmlTag = {
     '#name': 'svg',
     $: {
@@ -48,11 +47,11 @@ export async function generate(config: DocumentConfiguration, indexRules?: Index
       width: String(config.width),
       height: String(config.height),
       xmlns: 'http://www.w3.org/2000/svg',
-      'xmlns:serif': 'http://www.serif.com/',
-      'xmlns:xlink': 'http://www.w3.org/1999/xlink',
     },
     $$: [],
   }
+
+  const namespaces: { [name: string]: string } = {} //todo: add all namespaces from all parts at the end
 
   for (const part of config.parts) {
     const pseudoUniqueId = Math.random().toString(36).substr(2, 5)
@@ -65,6 +64,27 @@ export async function generate(config: DocumentConfiguration, indexRules?: Index
     if (!data) {
       console.log(`invalid svg '${part.name}'. skipping ...`)
       continue
+    }
+
+    if (data.$) {
+      for (const key of Object.keys(data.$)) {
+        if (key.includes('xmlns:')) {
+
+          const ns = data.$?.[key]
+
+          if (!ns) {
+            console.log('foo')
+            continue
+          }
+
+          if (namespaces[key] && namespaces[key] !== ns) {
+            console.error('found conflicting namespaces. (fixme)')  
+            continue
+          }
+
+          namespaces[key] = ns
+        }
+      }
     }
 
     for (const element of data.$$ ?? []) {
@@ -94,6 +114,10 @@ export async function generate(config: DocumentConfiguration, indexRules?: Index
 
       base.$$.push(newElement)
     }
+  }
+
+  for (const ns of Object.keys(namespaces)) {
+    base.$[ns] = namespaces[ns]
   }
 
   if (base.$$ && indexRules) {
