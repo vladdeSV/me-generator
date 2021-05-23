@@ -114,11 +114,11 @@ function xmlFromObject(xml: XmlTag): string {
 </${tagName}>`
 }
 
-function rearrangeXmlTagsByIndexRules(tags: XmlTag[], indexes: IndexRule[]): XmlTag[] {
+function rearrangeXmlTagsByIndexRules(tags: XmlTag[], indexRules: IndexRule[]): XmlTag[] {
 
   let mutableTags = tags.slice() // copy array
 
-  for (const indexRule of indexes) {
+  for (const indexRule of indexRules) {
 
     const a = parsePartIdentifier(indexRule[0])
     const b = parsePartIdentifier(indexRule[2])
