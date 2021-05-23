@@ -114,7 +114,7 @@ function xmlFromObject(xml: XmlTag): string {
 </${tagName}>`
 }
 
-export function rearrangeXmlTagsByIndexRules(tags: XmlTag[], indexes: IndexRule[]): XmlTag[] {
+function rearrangeXmlTagsByIndexRules(tags: XmlTag[], indexes: IndexRule[]): XmlTag[] {
 
   let mutableTags = tags.slice() // copy array
 
@@ -135,39 +135,31 @@ export function rearrangeXmlTagsByIndexRules(tags: XmlTag[], indexes: IndexRule[
     }
 
     // fixme: ugly as h*ck to divide array like this
-
-    const shouldTagBeMoved = (child: XmlTag) => {
-      let shouldBeMoved = true
-
-      if (a.elementId) {
-        shouldBeMoved = child.$?.id === a.elementId
-      }
-
-      return shouldBeMoved && (child.$?.parent === a.partId)
-    }
-
+    const shouldTagBeMoved = (child: XmlTag) => (child.$?.parent === a.partId) && (a.elementId ? child.$?.id === a.elementId : true)
     const tagsToBeMoved = tags.filter(x => shouldTagBeMoved(x))
-    const tempRearranged = mutableTags.filter(x => !shouldTagBeMoved(x))
+    const tempRearrangedTags = mutableTags.filter(x => !shouldTagBeMoved(x))
 
-    const satisifiedElement = tempRearranged.find(x => {
+    // after temporarily removing some tags, check if there are is a part left which matches this conditions
+    const satisifiedSearchElement = tempRearrangedTags.find(x => {
       const childParentId = x.$?.parent
       const childElementId = x.$?.id
       return childParentId === b.partId && (b.elementId ? childElementId === b.elementId : true)
     })
 
-    if (satisifiedElement === undefined) {
+    if (satisifiedSearchElement === undefined) {
       console.log('cannot find part with element id')
       continue
     }
 
     // insert tags at specified element
-    tempRearranged.splice(
-      tempRearranged.indexOf(satisifiedElement) + (type === 'over' ? 1 : 0),
+    tempRearrangedTags.splice(
+      tempRearrangedTags.indexOf(satisifiedSearchElement) + (type === 'over' ? 1 : 0),
       0,
       ...tagsToBeMoved,
     )
     
-    mutableTags = tempRearranged
+    // update order of tags
+    mutableTags = tempRearrangedTags
   }
 
   return mutableTags
