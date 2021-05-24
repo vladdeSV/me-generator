@@ -66,7 +66,7 @@ export async function generate(config: DocumentConfiguration, indexRules?: Index
     const data = await parsePartToXmlTag(part)
 
     if (!data) {
-      console.log(`invalid svg '${part.name}'. skipping ...`)
+      console.warn(`invalid svg '${part.name}'. skipping ...`)
       continue
     }
 
@@ -154,7 +154,7 @@ function rearrangeXmlTagsByIndexRules(tags: XmlTag[], indexRules: IndexRule[]): 
     }
 
     if (type !== 'over' && type !== 'under') {
-      console.log(`invalid placement operator '${type}'. skipping ...`)
+      console.error(`invalid placement operator '${type}'. skipping ...`)
       continue
     }
 
