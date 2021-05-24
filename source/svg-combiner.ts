@@ -19,15 +19,17 @@ export type DocumentConfiguration = {
 }
 
 type XmlTag = {
-  $?: { [name: string]: string }
-  $$?: XmlTag[]
   '#name': string
+  $?: Attributes
+  $$?: XmlTag[]
 }
 
 type DefinedXmlTag = XmlTag & {
-  $: { [name: string]: string }
+  $: Attributes
   $$: XmlTag[]
 }
+
+type Attributes = { [name: string]: string }
 
 // global parser options for this file
 const options: xml2js.ParserOptions = Object.freeze({
@@ -66,61 +68,26 @@ export async function generate(config: DocumentConfiguration, indexRules?: Index
       continue
     }
 
-    if (data.$) {
-      for (const key of Object.keys(data.$)) {
-        if (key.includes('xmlns:')) {
-
-          const ns = data.$?.[key]
-
-          if (!ns) {
-            console.log('foo')
-            continue
-          }
-
-          if (namespaces[key] && namespaces[key] !== ns) {
-            console.error('found conflicting namespaces. (fixme)')  
-            continue
-          }
-
-          namespaces[key] = ns
-        }
-      }
-    }
+    // copy svg's namespaces onto temp global namespace
+    Object.assign(namespaces, namespacesFromXmlTag(data)) // todo might overwrite
 
     for (const element of data.$$ ?? []) {
-
-      element.$ = element.$ || {}
-
-      const newElement = {
-        $: {} as { [name: string]: string },
-        $$: [] as XmlTag[],
-        '#name': 'g',
-      }
-
-      newElement.$.parent = part.name
-      newElement.$.id = element.$?.id
-
-      if (newElement.$.transform) {
-        console.log('found part which contains a transform. this is not yet supported')
-      }
-
-      newElement.$.transform = `translate(${part.x},${part.y})`
+      const newElement = combinedXmlTagChild(part, element)
 
       if (data.$?.style) {
-        newElement.$.style = data.$.style // fixme might override
+        newElement.$.style = data.$.style
       }
-
-      newElement.$$.push(element)
 
       base.$$.push(newElement)
     }
   }
 
+  // apply all new namespaces to global namespace
   for (const ns of Object.keys(namespaces)) {
     base.$[ns] = namespaces[ns]
   }
 
-  if (base.$$ && indexRules) {
+  if (indexRules && base.$$) {
     base.$$ = rearrangeXmlTagsByIndexRules(base.$$, indexRules)
   }
 
@@ -228,4 +195,54 @@ function parsePartIdentifier(input: string): PartIdentifier | undefined {
     partId,
     elementId,
   }
+}
+
+function namespacesFromXmlTag(data: XmlTag | undefined): Attributes {
+  if (!data?.$) {
+    return {}
+  }
+
+  const attributes = data.$
+  const ret: Attributes = {}
+
+  for (const attribute of Object.keys(attributes)) {
+    const isAttributeNamespace = (x: string) => x.includes('xmlns:')
+    if (!isAttributeNamespace(attribute)) {
+      continue
+    }
+
+    const namespaceKey = attribute // reassign for readable code
+    const namespaceValue = attributes[namespaceKey]
+
+    if (!namespaceValue) {
+      console.warn(`found falsy namespace for '${namespaceKey}'. skipping ...`)
+      continue
+    }
+
+    ret[attribute] = namespaceValue
+  }
+
+  return ret
+}
+
+function combinedXmlTagChild(part: Part, element: XmlTag): DefinedXmlTag {
+  element.$ = element.$ || {}
+
+  const newElement: DefinedXmlTag = {
+    '#name': 'g',
+    $: {},
+    $$: [],
+  }
+
+  newElement.$.parent = part.name
+  newElement.$.id = element.$?.id
+
+  if (newElement.$.transform) {
+    console.log('found part which contains a transform. this is not yet supported')
+  }
+
+  newElement.$.transform = `translate(${part.x},${part.y})`
+  newElement.$$.push(element)
+
+  return newElement
 }
