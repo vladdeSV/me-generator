@@ -56,12 +56,7 @@ export async function generate(config: DocumentConfiguration, indexRules?: Index
   const namespaces: { [name: string]: string } = {} //todo: add all namespaces from all parts at the end
 
   for (const part of config.parts) {
-    const pseudoUniqueId = Math.random().toString(36).substr(2, 5)
-    const svgData = fs.readFileSync(part.filePath, { encoding: 'utf-8' })
-      .replace(/_clip(\d+)/g, `_clip$1_${pseudoUniqueId}`)
-
-    const parseData = await xml2js.parseStringPromise(svgData, options)
-    const data = parseData.svg as XmlTag | undefined
+    const data = await parsePartToXmlTag(part)
 
     if (!data) {
       console.log(`invalid svg '${part.name}'. skipping ...`)
@@ -118,6 +113,17 @@ function xmlFromObject(xml: XmlTag): string {
   return `<${tagName} ${attributesString}>
   ${children.map(child => xmlFromObject(child)).join('\n')}
 </${tagName}>`
+}
+
+async function parsePartToXmlTag(part: Part): Promise<XmlTag | undefined> {
+  const pseudoUniqueId = Math.random().toString(36).substr(2, 5)
+  const svgData = fs.readFileSync(part.filePath, { encoding: 'utf-8' })
+    .replace(/_clip(\d+)/g, `_clip$1_${pseudoUniqueId}`)
+
+  const parseData = await xml2js.parseStringPromise(svgData, options)
+  const data = parseData.svg as XmlTag | undefined
+
+  return data
 }
 
 function rearrangeXmlTagsByIndexRules(tags: XmlTag[], indexRules: IndexRule[]): XmlTag[] {
