@@ -29,7 +29,14 @@ type DefinedXmlTag = XmlTag & {
   $$: XmlTag[]
 }
 
-type Attributes = { [name: string]: string }
+type Attributes = {
+  [name: string]: string
+}
+
+type PartIdentifier = {
+  partId: string
+  elementId: string | undefined
+}
 
 // global parser options for this file
 const options: xml2js.ParserOptions = Object.freeze({
@@ -53,7 +60,7 @@ export async function generate(config: DocumentConfiguration, indexRules?: Index
     $$: [],
   }
 
-  const namespaces: { [name: string]: string } = {} //todo: add all namespaces from all parts at the end
+  const namespaces: Attributes = {}
 
   for (const part of config.parts) {
     const data = await parsePartToXmlTag(part)
@@ -180,11 +187,6 @@ function rearrangeXmlTagsByIndexRules(tags: XmlTag[], indexRules: IndexRule[]): 
   }
 
   return mutableTags
-}
-
-type PartIdentifier = {
-  partId: string
-  elementId: string | undefined
 }
 
 function parsePartIdentifier(input: string): PartIdentifier | undefined {
