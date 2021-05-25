@@ -141,7 +141,7 @@ function rearrangeXmlTagsByIndexRules(tags: XmlTag[], indexRules: IndexRule[]): 
 
     const a = parsePartIdentifier(indexRule[0])
     const b = parsePartIdentifier(indexRule[2])
-    const type = indexRule[1] as string
+    const type = indexRule[1]
 
     if (!a) {
       console.log(`a, invalid identifier: '${indexRule[0]}'. skipping ...`)
@@ -150,11 +150,6 @@ function rearrangeXmlTagsByIndexRules(tags: XmlTag[], indexRules: IndexRule[]): 
 
     if (!b) {
       console.log(`b, invalid identifier: '${indexRule[2]}'. skipping ...`)
-      continue
-    }
-
-    if (type !== 'over' && type !== 'under') {
-      console.error(`invalid placement operator '${type}'. skipping ...`)
       continue
     }
 
