@@ -153,10 +153,8 @@ function rearrangeXmlTagsByIndexRules(tags: XmlTag[], indexRules: IndexRule[]): 
       continue
     }
 
-    // fixme: ugly as h*ck to divide array like this
     const shouldTagBeMoved = (child: XmlTag) => (child.$?.parent === a.partId) && (a.elementId ? child.$?.id === a.elementId : true)
-    const tagsToBeMoved = tags.filter(x => shouldTagBeMoved(x))
-    const tempRearrangedTags = mutableTags.filter(x => !shouldTagBeMoved(x))
+    const [tagsToBeMoved, tempRearrangedTags] = partition(mutableTags, shouldTagBeMoved)
 
     // after temporarily removing some tags, check if there are is a part left which matches this conditions
     const satisifiedSearchElement = tempRearrangedTags.find(x => {
@@ -248,4 +246,22 @@ function combinedXmlTagChild(part: Part, element: XmlTag): DefinedXmlTag {
   newElement.$$.push(element)
 
   return newElement
+}
+
+/// divide array into two arrays, depending on cirteria
+/// (copied from the internet, and modified to be typescript)
+/// exaple: const [strings, others] = partition(myArray, (x: unknown) => typeof x === 'string')
+function partition<T>(array: T[], filter: (x: T, index: number, array: T[]) => boolean) {
+  const pass: T[] = []
+  const fail: T[] = []
+
+  array.forEach((e, idx, arr) => {
+    const selectedArray = filter(e, idx, arr)
+      ? pass
+      : fail
+
+    selectedArray.push(e)
+  })
+
+  return [pass, fail]
 }
