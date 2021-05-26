@@ -1,23 +1,14 @@
 {
     "parts": {
-        "magenta": [30,40],
-        "cyan": [130,130],
-        "red": [100,25],
-        "yellow": [200,200],
-        "green": [10,240]
+        "magenta": [30, 40],
+        "cyan": [130, 130],
+        "red": [100, 25],
+        "yellow": [200, 200],
+        "green": [10, 240]
     },
     "generation": [
-        [
-            "magenta",
-            {"partId": null, "weight": 0.3}
-        ],
-        [
-            "cyan",
-            "red"
-        ],
-        [
-            "yellow",
-            "green"
-        ]
+        [null, { "partId": "magenta", "weight": 0.7 }],
+        ["cyan", "red"],
+        ["yellow", "green"]
     ]
 }
