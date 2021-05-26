@@ -40,6 +40,25 @@ The projects consists of multiple parts:
 - *SVG combiner*, combines multiple `.svg` files into one
 - *Generator*, rulebook for how image should be combined (generating by seed)
 
+## Features
+
+<table width="600" height="300">
+    <tbody>
+        <tr>
+            <td align="center">
+                <img width="100" height="100" src="./resource/example/red.svg" alt="">
+                <img width="100" height="100" src="./resource/example/green.svg" alt="">
+                <img width="100" height="100" src="./resource/example/yellow.svg" alt="">
+                <img width="100" height="100" src="./resource/example/magenta.svg" alt="">
+                <img width="100" height="100" src="./resource/example/cyan.svg" alt="">
+            </td>
+            <td align="center">
+                <img src="./resource/example/combined.svg" alt="">
+            </td>
+        </tr>
+    </tbody>
+</table>
+
 ## Hack
 Please keep in mind; in essence, this is a glorified SVG-combiner. An image is generated from a rulebook. This rulebook specifies the images which will be used, and all rules when generating the image.
 
