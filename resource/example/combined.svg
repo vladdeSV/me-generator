@@ -1,0 +1,67 @@
+<!-- shamelessly stolen from https://github.com/sindresorhus/css-in-readme-like-wat -->
+<svg fill="none" viewBox="0 0 500 500" width="300" height="300"
+xmlns="http://www.w3.org/2000/svg">
+<foreignObject width="100%" height="100%">
+    <div xmlns="http://www.w3.org/1999/xhtml">
+        <style>
+            .container > svg {
+                position: absolute;
+                left: 0;
+                top: 0;
+                opacity: 0;
+                
+                animation-name: bar;
+                animation-duration: 8s;
+                animation-fill-mode: forwards;
+                animation-iteration-count: infinite;
+                animation-timing-function:steps(1, end);
+            }
+
+            @keyframes bar {
+                0%, 20% {
+                    opacity: 1;
+                }
+                20% {
+                    opacity: 0;
+                }
+            }
+
+            .container > svg:nth-child(1) {
+                animation-delay: 0s;
+            }
+            .container > svg:nth-child(2) {
+                animation-delay: 1s;
+            }
+            .container > svg:nth-child(3) {
+                animation-delay: 2s;
+            }
+            .container > svg:nth-child(4) {
+                animation-delay: 3s;
+            }
+            .container > svg:nth-child(5) {
+                animation-delay: 4s;
+            }
+            .container > svg:nth-child(6) {
+                animation-delay: 5s;
+            }
+            .container > svg:nth-child(7) {
+                animation-delay: 6s;
+            }
+            .container > svg:nth-child(8) {
+                animation-delay: 7s;
+            }
+
+        </style>
+        <div class="container">
+            <svg id="cg" fill="none" width="500" height="500" xmlns="http://www.w3.org/2000/svg"><g transform="translate(130,130)"><svg width="350" height="100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><g transform="matrix(1.56952,0,0,1.63958,-266.239,-180.208)"><rect x="169.632" y="109.911" width="222.999" height="60.991" style="fill:rgb(0,255,255);"/></g></svg></g><g transform="translate(10,240)"><svg width="260" height="200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><g transform="matrix(1.3287,0,0,1.3339,-104.675,-417.797)"><path d="M176.62,313.215L274.46,463.151L78.78,463.151L176.62,313.215Z" style="fill:rgb(0,255,0);"/></g></svg></g></svg>
+            <svg id="cy" fill="none" width="500" height="500" xmlns="http://www.w3.org/2000/svg"><g transform="translate(130,130)"><svg width="350" height="100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><g transform="matrix(1.56952,0,0,1.63958,-266.239,-180.208)"><rect x="169.632" y="109.911" width="222.999" height="60.991" style="fill:rgb(0,255,255);"/></g></svg></g><g transform="translate(200,200)"><svg width="290" height="290" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><g transform="matrix(1.92194,0,0,1.92194,-563.516,-230.779)"><circle cx="368.647" cy="195.521" r="75.445" style="fill:rgb(255,255,0);"/></g></svg></g></svg>
+            <svg id="mcg" fill="none" width="500" height="500" xmlns="http://www.w3.org/2000/svg"><g transform="translate(30,40)"><svg width="245" height="245" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><g transform="matrix(1.42562,0,0,1.42562,-45.2865,-59.7782)"><rect x="31.766" y="41.931" width="171.855" height="171.855" style="fill:rgb(255,0,255);"/></g></svg></g><g transform="translate(130,130)"><svg width="350" height="100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><g transform="matrix(1.56952,0,0,1.63958,-266.239,-180.208)"><rect x="169.632" y="109.911" width="222.999" height="60.991" style="fill:rgb(0,255,255);"/></g></svg></g><g transform="translate(10,240)"><svg width="260" height="200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><g transform="matrix(1.3287,0,0,1.3339,-104.675,-417.797)"><path d="M176.62,313.215L274.46,463.151L78.78,463.151L176.62,313.215Z" style="fill:rgb(0,255,0);"/></g></svg></g></svg>
+            <svg id="mcy" fill="none" width="500" height="500" xmlns="http://www.w3.org/2000/svg"><g transform="translate(30,40)"><svg width="245" height="245" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><g transform="matrix(1.42562,0,0,1.42562,-45.2865,-59.7782)"><rect x="31.766" y="41.931" width="171.855" height="171.855" style="fill:rgb(255,0,255);"/></g></svg></g><g transform="translate(130,130)"><svg width="350" height="100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><g transform="matrix(1.56952,0,0,1.63958,-266.239,-180.208)"><rect x="169.632" y="109.911" width="222.999" height="60.991" style="fill:rgb(0,255,255);"/></g></svg></g><g transform="translate(200,200)"><svg width="290" height="290" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><g transform="matrix(1.92194,0,0,1.92194,-563.516,-230.779)"><circle cx="368.647" cy="195.521" r="75.445" style="fill:rgb(255,255,0);"/></g></svg></g></svg>
+            <svg id="mrg" fill="none" width="500" height="500" xmlns="http://www.w3.org/2000/svg"><g transform="translate(30,40)"><svg width="245" height="245" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><g transform="matrix(1.42562,0,0,1.42562,-45.2865,-59.7782)"><rect x="31.766" y="41.931" width="171.855" height="171.855" style="fill:rgb(255,0,255);"/></g></svg></g><g transform="translate(100,25)"><svg width="326" height="326" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><g transform="matrix(0.827841,0.827841,-0.761192,0.761192,7.10445,-361.885)"><rect x="372.3" y="70.521" width="76.874" height="343.71" style="fill:rgb(255,0,0);"/></g></svg></g><g transform="translate(10,240)"><svg width="260" height="200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><g transform="matrix(1.3287,0,0,1.3339,-104.675,-417.797)"><path d="M176.62,313.215L274.46,463.151L78.78,463.151L176.62,313.215Z" style="fill:rgb(0,255,0);"/></g></svg></g></svg>
+            <svg id="mry" fill="none" width="500" height="500" xmlns="http://www.w3.org/2000/svg"><g transform="translate(30,40)"><svg width="245" height="245" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><g transform="matrix(1.42562,0,0,1.42562,-45.2865,-59.7782)"><rect x="31.766" y="41.931" width="171.855" height="171.855" style="fill:rgb(255,0,255);"/></g></svg></g><g transform="translate(100,25)"><svg width="326" height="326" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><g transform="matrix(0.827841,0.827841,-0.761192,0.761192,7.10445,-361.885)"><rect x="372.3" y="70.521" width="76.874" height="343.71" style="fill:rgb(255,0,0);"/></g></svg></g><g transform="translate(200,200)"><svg width="290" height="290" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><g transform="matrix(1.92194,0,0,1.92194,-563.516,-230.779)"><circle cx="368.647" cy="195.521" r="75.445" style="fill:rgb(255,255,0);"/></g></svg></g></svg>
+            <svg id="rg" fill="none" width="500" height="500" xmlns="http://www.w3.org/2000/svg"><g transform="translate(100,25)"><svg width="326" height="326" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><g transform="matrix(0.827841,0.827841,-0.761192,0.761192,7.10445,-361.885)"><rect x="372.3" y="70.521" width="76.874" height="343.71" style="fill:rgb(255,0,0);"/></g></svg></g><g transform="translate(10,240)"><svg width="260" height="200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><g transform="matrix(1.3287,0,0,1.3339,-104.675,-417.797)"><path d="M176.62,313.215L274.46,463.151L78.78,463.151L176.62,313.215Z" style="fill:rgb(0,255,0);"/></g></svg></g></svg>
+            <svg id="ry" fill="none" width="500" height="500" xmlns="http://www.w3.org/2000/svg"><g transform="translate(100,25)"><svg width="326" height="326" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><g transform="matrix(0.827841,0.827841,-0.761192,0.761192,7.10445,-361.885)"><rect x="372.3" y="70.521" width="76.874" height="343.71" style="fill:rgb(255,0,0);"/></g></svg></g><g transform="translate(200,200)"><svg width="290" height="290" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><g transform="matrix(1.92194,0,0,1.92194,-563.516,-230.779)"><circle cx="368.647" cy="195.521" r="75.445" style="fill:rgb(255,255,0);"/></g></svg></g></svg>
+        </div>
+    </div>
+</foreignObject>
+</svg>
