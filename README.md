@@ -42,18 +42,20 @@ The projects consists of multiple parts:
 
 ## Features
 
-<table width="600" height="300">
+<table width="100%">
     <tbody>
         <tr>
             <td align="center">
                 <img width="100" height="100" src="./resource/example/red.svg" alt="">
                 <img width="100" height="100" src="./resource/example/green.svg" alt="">
                 <img width="100" height="100" src="./resource/example/yellow.svg" alt="">
+                <br>
                 <img width="100" height="100" src="./resource/example/magenta.svg" alt="">
                 <img width="100" height="100" src="./resource/example/cyan.svg" alt="">
             </td>
+          <td><i>combines into</i></td>
             <td align="center">
-                <img src="./resource/example/combined.svg" alt="">
+                <img src="./resource/example/combined.svg?test=1" alt="">
             </td>
         </tr>
     </tbody>
