@@ -53,7 +53,11 @@ The projects consists of multiple parts:
                 <img width="100" height="100" src="./resource/example/magenta.svg" alt="">
                 <img width="100" height="100" src="./resource/example/cyan.svg" alt="">
             </td>
-          <td><i>combines into</i></td>
+            <td>
+              <i>
+                using <a href="./resource/example/rulebook.json">this ruleset</a>, combines into
+              </i>
+          </td>
             <td align="center">
                 <img src="./resource/example/combined.svg?test=1" alt="">
             </td>
