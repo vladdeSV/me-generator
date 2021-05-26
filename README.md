@@ -51,8 +51,8 @@ Nothing is set in stone.
    - [x] Custom part weight
    - [x] Part disallows some other part
    - [ ] Part require some other part
+   - [x] Multi-layered parts, sandwich parts between *groups* of SVG
  - [ ] Target groups of parts
-   - [ ] Multi-layered parts, sandwich parts between *groups* of SVG
 
 ## Why
 Have you heard of [*The Binding of Isaac*](https://store.steampowered.com/app/250900/The_Binding_of_Isaac_Rebirth/)?
