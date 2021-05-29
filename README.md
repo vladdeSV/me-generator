@@ -53,16 +53,16 @@ The projects consists of multiple parts:
     <tbody>
         <tr>
             <td align="center">
-                <img width="100" height="100" src="./resource/example/red.svg" alt="">
-                <img width="100" height="100" src="./resource/example/green.svg" alt="">
-                <img width="100" height="100" src="./resource/example/yellow.svg" alt="">
+                <img width="100" height="100" src="./resource/examples/shapes/red.svg" alt="">
+                <img width="100" height="100" src="./resource/examples/shapes/green.svg" alt="">
+                <img width="100" height="100" src="./resource/examples/shapes/yellow.svg" alt="">
                 <br>
-                <img width="100" height="100" src="./resource/example/magenta.svg" alt="">
-                <img width="100" height="100" src="./resource/example/cyan.svg" alt="">
+                <img width="100" height="100" src="./resource/examples/shapes/magenta.svg" alt="">
+                <img width="100" height="100" src="./resource/examples/shapes/cyan.svg" alt="">
             </td>
             <td>
               <p align="center">
-                <i>using <a href="./resource/example/rulebook.json">this ruleset</a>, combines into one of</i>
+                <i>using <a href="./resource/examples/shapes/rulebook.json">this ruleset</a>, combines into one of</i>
 
 ```jsonc
 // rulebook.json
@@ -79,7 +79,7 @@ The projects consists of multiple parts:
 </p>
           </td>
             <td align="center">
-                <img src="./resource/example/combined.svg?test=2" alt="">
+                <img src="./resource/examples/shapes/combined.svg?test=2" alt="">
             </td>
         </tr>
     </tbody>
