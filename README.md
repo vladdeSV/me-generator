@@ -111,7 +111,7 @@ I highly recommend looking at the [example rulebook](https://github.com/vladdeSV
 </p>
             </td>
             <td align="center">
-                <img src="./resource/examples/z-index/output.svg" alt="">
+                <img height="200" src="./resource/examples/z-index/output.svg" alt="">
             </td>
         </tr>
     </tbody>
