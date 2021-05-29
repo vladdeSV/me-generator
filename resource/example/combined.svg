@@ -8,7 +8,8 @@ xmlns="http://www.w3.org/2000/svg">
                 position: absolute;
                 left: 0;
                 top: 0;
-                opacity: 0;
+
+                clip-path: circle(0px at 50% 50%);
                 
                 animation-name: bar;
                 animation-duration: 8s;
@@ -17,36 +18,36 @@ xmlns="http://www.w3.org/2000/svg">
             }
 
             @keyframes bar {
-                0%, 12.5% {
-                    opacity: 1;
+                0%, 12% {
+                    clip-path: circle(9999px at 50% 50%);
                 }
-                12.6% {
-                    opacity: 0;
+                13% {
+                    clip-path: circle(0px at 50% 50%);
                 }
             }
 
-            .container > svg:nth-child(1) {
+            .container > #cg {
                 animation-delay: 0s;
             }
-            .container > svg:nth-child(2) {
+            .container > #cy {
                 animation-delay: 1s;
             }
-            .container > svg:nth-child(3) {
+            .container > #mcg {
                 animation-delay: 2s;
             }
-            .container > svg:nth-child(4) {
+            .container > #mcy {
                 animation-delay: 3s;
             }
-            .container > svg:nth-child(5) {
+            .container > #mrg {
                 animation-delay: 4s;
             }
-            .container > svg:nth-child(6) {
+            .container > #mry {
                 animation-delay: 5s;
             }
-            .container > svg:nth-child(7) {
+            .container > #rg {
                 animation-delay: 6s;
             }
-            .container > svg:nth-child(8) {
+            .container > #ry {
                 animation-delay: 7s;
             }
 

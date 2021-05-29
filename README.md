@@ -59,7 +59,7 @@ The projects consists of multiple parts:
               </i>
           </td>
             <td align="center">
-                <img src="./resource/example/combined.svg?test=1" alt="">
+                <img src="./resource/example/combined.svg?test=2" alt="">
             </td>
         </tr>
     </tbody>
