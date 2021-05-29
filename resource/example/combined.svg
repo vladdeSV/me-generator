@@ -9,7 +9,12 @@ xmlns="http://www.w3.org/2000/svg">
                 left: 0;
                 top: 0;
 
-                clip-path: circle(0px at 50% 50%);
+                clip-path: polygon(
+                    0% 0%,
+                    0% 0%,
+                    0% 0%,
+                    0% 0%
+                );
                 
                 animation-name: bar;
                 animation-duration: 8s;
@@ -18,11 +23,21 @@ xmlns="http://www.w3.org/2000/svg">
             }
 
             @keyframes bar {
-                0%, 12% {
-                    clip-path: circle(9999px at 50% 50%);
+                5%, 12.5% {
+                clip-path: polygon(
+                    0% 0%,
+                    0% 0%,
+                    200% 00%,
+                    0% 200%
+                );
                 }
-                13% {
-                    clip-path: circle(0px at 50% 50%);
+                17.5% {
+                clip-path: polygon(
+                    0% 200%,
+                    200% 0%,
+                    200% 00%,
+                    0% 200%
+                );
                 }
             }
 
