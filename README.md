@@ -82,6 +82,34 @@ The projects consists of multiple parts:
                 <img src="./resource/examples/shapes/combined.svg?test=2" alt="">
             </td>
         </tr>
+        <tr>
+            <td align="center">
+                <img width="100" height="100" src="./resource/examples/z-index/twelve.svg" alt="">
+                <img width="100" height="100" src="./resource/examples/z-index/three.svg" alt="">
+            </td>
+            <td>
+              <p align="center">
+                <i>from <a href="./resource/examples/z-index/rulebook.json">z-index/rulebook.json</a></i>
+
+```jsonc
+{
+  // ...
+  "indexes": [
+    [
+      "three",
+      "under",
+      "twelve#two"
+    ]
+  ]
+}
+```
+
+</p>
+            </td>
+            <td align="center">
+                <img src="./resource/examples/z-index/output.svg" alt="">
+            </td>
+        </tr>
     </tbody>
 </table>
 
