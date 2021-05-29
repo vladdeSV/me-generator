@@ -41,6 +41,11 @@ The projects consists of multiple parts:
 - *Generator*, rulebook for how image should be combined (generating by seed)
 
 ## Hack
+Please keep in mind; in essence, this is a glorified SVG-combiner. An image is generated from a rulebook. This rulebook specifies the images which will be used, and all rules when generating the image.
+
+I highly recommend looking at the [example rulebook](https://github.com/vladdeSV/me-generator-images/blob/9984c360b9590fecf7120bb100297d3b573190fc/rulebook.json), or [start a discussion](https://github.com/vladdeSV/me-generator/discussions).
+
+### Examples
 
 <table width="100%">
     <thead>
@@ -111,10 +116,6 @@ The projects consists of multiple parts:
         </tr>
     </tbody>
 </table>
-
-Please keep in mind; in essence, this is a glorified SVG-combiner. An image is generated from a rulebook. This rulebook specifies the images which will be used, and all rules when generating the image.
-
-I highly recommend looking at the [example rulebook](https://github.com/vladdeSV/me-generator-images/blob/9984c360b9590fecf7120bb100297d3b573190fc/rulebook.json), or [start a discussion](https://github.com/vladdeSV/me-generator/discussions).
 
 ## Roadmap
 Nothing is set in stone.
