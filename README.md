@@ -61,7 +61,8 @@ The projects consists of multiple parts:
                 <img width="100" height="100" src="./resource/examples/shapes/cyan.svg" alt="">
             </td>
             <td>
-              <i>from <a href="./resource/examples/shapes/rulebook.json">this rulebook</a></i>
+              <p align="center">
+                <i>from <a href="./resource/examples/shapes/rulebook.json">this rulebook</a></i>
 
 ```jsonc
 // rulebook.json
@@ -75,7 +76,8 @@ The projects consists of multiple parts:
 }
 ```
 
-</td>
+</p>
+            </td>
             <td align="center">
                 <img src="./resource/examples/shapes/combined.svg?test=2" alt="">
             </td>
