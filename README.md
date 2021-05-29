@@ -43,6 +43,13 @@ The projects consists of multiple parts:
 ## Hack
 
 <table width="100%">
+    <thead>
+        <tr>
+            <th>parts</th>
+            <th></th>
+            <th>output</th>
+        </tr>
+    </thead>
     <tbody>
         <tr>
             <td align="center">
@@ -54,9 +61,9 @@ The projects consists of multiple parts:
                 <img width="100" height="100" src="./resource/example/cyan.svg" alt="">
             </td>
             <td>
-              <i>
-                using <a href="./resource/example/rulebook.json">this ruleset</a>, combines into
-              </i>
+              <p align="center">
+                <i>using <a href="./resource/example/rulebook.json">this ruleset</a>, combines into one of</i>
+              </p>
           </td>
             <td align="center">
                 <img src="./resource/example/combined.svg?test=2" alt="">
