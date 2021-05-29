@@ -1,0 +1,26 @@
+<svg fill="none" width="100%" height="100%" viewBox="0 0 100 100"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:serif="http://www.serif.com/">
+  <g parent="twelve" id="one" transform="translate(0,0)" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g id="one" transform="matrix(1,0,0,1,-9.40692,62.556)">
+      <g transform="matrix(120,0,0,120,11.0821,28.1617)">
+        <path d="M0.318,-0L0.318,-0.72L0.195,-0.72L0.06,-0.639L0.06,-0.506L0.195,-0.588L0.195,-0L0.318,-0Z" style="fill:rgb(0,114,178);fill-rule:nonzero;"/>
+      </g>
+    </g>
+  </g>
+  <g parent="three" id="undefined" transform="translate(0,0)" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,5.22786,64.2283)">
+      <g transform="matrix(120,0,0,120,11.0821,28.1617)">
+        <path d="M0.509,-0.606L0.509,-0.72L0.068,-0.72L0.068,-0.607L0.366,-0.607L0.158,-0.429L0.213,-0.333C0.232,-0.344 0.254,-0.35 0.276,-0.35C0.348,-0.35 0.399,-0.296 0.399,-0.225C0.399,-0.154 0.346,-0.101 0.276,-0.1C0.223,-0.1 0.173,-0.132 0.157,-0.189L0.04,-0.158C0.071,-0.053 0.168,0.013 0.276,0.013C0.411,0.013 0.521,-0.088 0.521,-0.225C0.521,-0.334 0.458,-0.428 0.347,-0.45L0.509,-0.606Z" style="fill:rgb(213,94,0);fill-rule:nonzero;"/>
+      </g>
+    </g>
+  </g>
+  <g parent="twelve" id="two" transform="translate(0,0)" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g id="two" transform="matrix(1,0,0,1,14.5826,67.6407)">
+      <g transform="matrix(120,0,0,120,11.0821,28.1617)">
+        <path d="M0.421,-0.278C0.503,-0.35 0.545,-0.392 0.545,-0.495C0.545,-0.636 0.442,-0.735 0.304,-0.735C0.155,-0.735 0.051,-0.641 0.051,-0.497L0.175,-0.497C0.173,-0.563 0.226,-0.622 0.301,-0.622C0.373,-0.622 0.422,-0.568 0.422,-0.496C0.422,-0.461 0.406,-0.423 0.358,-0.381L0.05,-0.106L0.05,-0.001L0.545,-0.001L0.545,-0.114L0.237,-0.114L0.421,-0.278Z" style="fill:rgb(0,81,126);fill-rule:nonzero;"/>
+      </g>
+    </g>
+  </g>
+</svg>
