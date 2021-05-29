@@ -40,7 +40,7 @@ The projects consists of multiple parts:
 - *SVG combiner*, combines multiple `.svg` files into one
 - *Generator*, rulebook for how image should be combined (generating by seed)
 
-## Features
+## Hack
 
 <table width="100%">
     <tbody>
@@ -65,7 +65,6 @@ The projects consists of multiple parts:
     </tbody>
 </table>
 
-## Hack
 Please keep in mind; in essence, this is a glorified SVG-combiner. An image is generated from a rulebook. This rulebook specifies the images which will be used, and all rules when generating the image.
 
 I highly recommend looking at the [example rulebook](https://github.com/vladdeSV/me-generator-images/blob/9984c360b9590fecf7120bb100297d3b573190fc/rulebook.json), or [start a discussion](https://github.com/vladdeSV/me-generator/discussions).
