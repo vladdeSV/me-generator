@@ -41,6 +41,37 @@ The projects consists of multiple parts:
 - *Generator*, rulebook for how image should be combined (generating by seed)
 
 ## Hack
+
+<table width="100%">
+    <thead>
+        <tr>
+            <th>parts</th>
+            <th></th>
+            <th>output</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td align="center">
+                <img width="100" height="100" src="./resource/example/red.svg" alt="">
+                <img width="100" height="100" src="./resource/example/green.svg" alt="">
+                <img width="100" height="100" src="./resource/example/yellow.svg" alt="">
+                <br>
+                <img width="100" height="100" src="./resource/example/magenta.svg" alt="">
+                <img width="100" height="100" src="./resource/example/cyan.svg" alt="">
+            </td>
+            <td>
+              <p align="center">
+                <i>using <a href="./resource/example/rulebook.json">this ruleset</a>, combines into one of</i>
+              </p>
+          </td>
+            <td align="center">
+                <img src="./resource/example/combined.svg?test=2" alt="">
+            </td>
+        </tr>
+    </tbody>
+</table>
+
 Please keep in mind; in essence, this is a glorified SVG-combiner. An image is generated from a rulebook. This rulebook specifies the images which will be used, and all rules when generating the image.
 
 I highly recommend looking at the [example rulebook](https://github.com/vladdeSV/me-generator-images/blob/9984c360b9590fecf7120bb100297d3b573190fc/rulebook.json), or [start a discussion](https://github.com/vladdeSV/me-generator/discussions).
