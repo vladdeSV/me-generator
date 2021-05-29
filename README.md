@@ -61,23 +61,21 @@ The projects consists of multiple parts:
                 <img width="100" height="100" src="./resource/examples/shapes/cyan.svg" alt="">
             </td>
             <td>
-              <p align="center">
-                <i>using <a href="./resource/examples/shapes/rulebook.json">this ruleset</a>, combines into one of</i>
+              <i>from <a href="./resource/examples/shapes/rulebook.json">this rulebook</a></i>
 
 ```jsonc
 // rulebook.json
 {
   // ...
   "generation": [
-    [null, { "partId": "magenta", "weight": 0.7 }],
+    ["magenta", null],
     ["cyan", "red"],
     ["yellow", "green"]
   ]
 }
 ```
 
-</p>
-          </td>
+</td>
             <td align="center">
                 <img src="./resource/examples/shapes/combined.svg?test=2" alt="">
             </td>
