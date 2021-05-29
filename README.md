@@ -62,10 +62,9 @@ The projects consists of multiple parts:
             </td>
             <td>
               <p align="center">
-                <i>from <a href="./resource/examples/shapes/rulebook.json">this rulebook</a></i>
+                <i>from <a href="./resource/examples/shapes/rulebook.json">shapes/rulebook.json</a></i>
 
 ```jsonc
-// rulebook.json
 {
   // ...
   "generation": [
