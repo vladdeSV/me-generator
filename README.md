@@ -63,7 +63,20 @@ The projects consists of multiple parts:
             <td>
               <p align="center">
                 <i>using <a href="./resource/example/rulebook.json">this ruleset</a>, combines into one of</i>
-              </p>
+
+```jsonc
+// rulebook.json
+{
+  // ...
+  "generation": [
+    [null, { "partId": "magenta", "weight": 0.7 }],
+    ["cyan", "red"],
+    ["yellow", "green"]
+  ]
+}
+```
+
+</p>
           </td>
             <td align="center">
                 <img src="./resource/example/combined.svg?test=2" alt="">
