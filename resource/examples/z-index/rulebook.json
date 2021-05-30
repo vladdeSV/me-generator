@@ -1,0 +1,17 @@
+{
+  "parts": {
+      "twelve": [0, 0],
+      "three": [0, 0]
+  },
+  "generation": [
+    "twelve",
+    "three"
+  ],
+  "indexes": [
+    [
+      "three",
+      "under",
+      "twelve#two"
+    ]
+  ]
+}

@@ -41,6 +41,11 @@ The projects consists of multiple parts:
 - *Generator*, rulebook for how image should be combined (generating by seed)
 
 ## Hack
+Please keep in mind; in essence, this is a glorified SVG-combiner. An image is generated from a rulebook. This rulebook specifies the images which will be used, and all rules when generating the image.
+
+I highly recommend looking at the [example rulebook](https://github.com/vladdeSV/me-generator-images/blob/9984c360b9590fecf7120bb100297d3b573190fc/rulebook.json), or [start a discussion](https://github.com/vladdeSV/me-generator/discussions).
+
+### Examples
 
 <table width="100%">
     <thead>
@@ -53,23 +58,22 @@ The projects consists of multiple parts:
     <tbody>
         <tr>
             <td align="center">
-                <img width="100" height="100" src="./resource/example/red.svg" alt="">
-                <img width="100" height="100" src="./resource/example/green.svg" alt="">
-                <img width="100" height="100" src="./resource/example/yellow.svg" alt="">
+                <img width="100" height="100" src="./resource/examples/shapes/red.svg" alt="">
+                <img width="100" height="100" src="./resource/examples/shapes/green.svg" alt="">
+                <img width="100" height="100" src="./resource/examples/shapes/yellow.svg" alt="">
                 <br>
-                <img width="100" height="100" src="./resource/example/magenta.svg" alt="">
-                <img width="100" height="100" src="./resource/example/cyan.svg" alt="">
+                <img width="100" height="100" src="./resource/examples/shapes/magenta.svg" alt="">
+                <img width="100" height="100" src="./resource/examples/shapes/cyan.svg" alt="">
             </td>
             <td>
               <p align="center">
-                <i>using <a href="./resource/example/rulebook.json">this ruleset</a>, combines into one of</i>
+                <i>from <a href="./resource/examples/shapes/rulebook.json">shapes/rulebook.json</a></i>
 
 ```jsonc
-// rulebook.json
 {
   // ...
   "generation": [
-    [null, { "partId": "magenta", "weight": 0.7 }],
+    ["magenta", null],
     ["cyan", "red"],
     ["yellow", "green"]
   ]
@@ -77,17 +81,41 @@ The projects consists of multiple parts:
 ```
 
 </p>
-          </td>
+            </td>
             <td align="center">
-                <img src="./resource/example/combined.svg?test=2" alt="">
+                <img src="./resource/examples/shapes/combined.svg?test=2" alt="">
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <img width="100" height="100" src="./resource/examples/z-index/twelve.svg" alt="">
+                <img width="100" height="100" src="./resource/examples/z-index/three.svg" alt="">
+            </td>
+            <td>
+              <p align="center">
+                <i>from <a href="./resource/examples/z-index/rulebook.json">z-index/rulebook.json</a></i>
+
+```jsonc
+{
+  // ...
+  "indexes": [
+    [
+      "three",
+      "under",
+      "twelve#two"
+    ]
+  ]
+}
+```
+
+</p>
+            </td>
+            <td align="center">
+                <img height="200" src="./resource/examples/z-index/output.svg" alt="">
             </td>
         </tr>
     </tbody>
 </table>
-
-Please keep in mind; in essence, this is a glorified SVG-combiner. An image is generated from a rulebook. This rulebook specifies the images which will be used, and all rules when generating the image.
-
-I highly recommend looking at the [example rulebook](https://github.com/vladdeSV/me-generator-images/blob/9984c360b9590fecf7120bb100297d3b573190fc/rulebook.json), or [start a discussion](https://github.com/vladdeSV/me-generator/discussions).
 
 ## Roadmap
 Nothing is set in stone.
