@@ -83,6 +83,9 @@ I highly recommend looking at the [example rulebook](https://github.com/vladdeSV
 </p>
             </td>
             <td align="center">
+                <p>
+                    <i>one of…</i>
+                </p>
                 <img src="./resource/examples/shapes/combined.svg?test=2" alt="">
             </td>
         </tr>
