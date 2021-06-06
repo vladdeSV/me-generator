@@ -130,7 +130,7 @@ Nothing is set in stone.
  - [ ] Target groups of parts
 
 ## Why
-Have you heard of [*The Binding of Isaac*](https://store.steampowered.com/app/250900/The_Binding_of_Isaac_Rebirth/)?
+Have you heard of [*The Binding of Isaac: Rebirth*](https://store.steampowered.com/app/250900/The_Binding_of_Isaac_Rebirth/)?
 
 ## License
 MIT © [Vladimirs Nordholm](https://github.com/vladdeSV)
