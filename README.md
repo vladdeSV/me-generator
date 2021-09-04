@@ -22,8 +22,8 @@ Generate an image with random pieces of clothing / cosmetics.
       <div align="center"><sub>seed: guppy</sub></div>
     </td>
     <td>
-      <a href="https://generator.vladde.me/?seed=hello"><img src="https://generator.vladde.me/?seed=hello"></a>
-      <div align="center"><sub>seed: hello</sub></div>
+      <a href="https://generator.vladde.me/?seed=469f0b0cb93a9592"><img src="https://generator.vladde.me/?seed=469f0b0cb93a9592"></a>
+      <div align="center"><sub>seed: 469f0b0cb93a9592</sub></div>
     </td>
   </tr>
 </table>
