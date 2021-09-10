@@ -67,7 +67,7 @@ function selectRandomElementByWeight(rng: PseudoRandomNumberGenerator, input: (P
     throw new Error('input and weight lengths must match')
   }
 
-  if(input.length === 0) {
+  if (input.length === 0) {
     return null
   }
 
