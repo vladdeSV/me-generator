@@ -1,3 +1,5 @@
 {
-  "rulebook": "../path/to/rulebook.json"
+  "rulebook": "../path/to/rulebook.json",
+  "width": 850,
+  "height": 270
 }

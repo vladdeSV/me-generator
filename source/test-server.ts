@@ -6,6 +6,9 @@ import * as path from 'path'
 import { Rulebook } from './rulebook'
 import { readJsonFileAs } from './utils'
 import express from 'express'
+import { readFileSync } from 'fs'
+import * as D from 'io-ts/Decoder'
+import { isRight } from 'fp-ts/lib/Either'
 
 (() => {
   const app = express()
@@ -41,9 +44,13 @@ import express from 'express'
         return res.send(e)
       }
 
-      const seed = seedParameter ?? randomBytes(8).toString('hex')
+      const configData = Config.decode(JSON.parse(readFileSync('./config.json', {encoding: 'utf-8'})))
+      if(!isRight(configData)) {
+        res.statusCode = 500
+        return res.send('Invalid config format')
+      }
 
-      const config = readJsonFileAs<{ rulebook: string }>('./config.json')
+      const config: Config = configData.right
       const rulebookPath = config.rulebook
       const rulebook: Rulebook = readJsonFileAs<Rulebook>(rulebookPath)
 
@@ -52,8 +59,8 @@ import express from 'express'
       const seed = seedParameter ?? randomBytes(8).toString('hex')
       console.log(`Generating by seed '${seed}'`)
       const documentConfiguration: DocumentConfiguration = {
-        width: 850,
-        height: 270,
+        width: config.width,
+        height: config.height,
         parts: generate(rulebook, seed),
       }
 
