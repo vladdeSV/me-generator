@@ -70,3 +70,10 @@ import express from 'express'
     console.log(`[server]: server running at http://localhost:${PORT}`)
   })
 })()
+
+type Config = D.TypeOf<typeof Config>
+const Config = D.struct({
+  rulebook: D.string,
+  width: D.number,
+  height: D.number,
+})
