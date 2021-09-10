@@ -48,6 +48,8 @@ import express from 'express'
       const rulebook: Rulebook = readJsonFileAs<Rulebook>(rulebookPath)
 
       rulebook.path = path.join(path.dirname(rulebookPath), rulebook.path === undefined ? '.' : rulebook.path)
+      
+      const seed = seedParameter ?? randomBytes(8).toString('hex')
       console.log(`Generating by seed '${seed}'`)
       const documentConfiguration: DocumentConfiguration = {
         width: 850,
