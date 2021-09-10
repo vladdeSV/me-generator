@@ -1,6 +1,6 @@
 **Note**: This generator is in alpha state, so any changes to the algorithm may occur until v1 is released. Specific seeds will most likely not work reliably until then.
 
-Syntax for defining rules are still work in progress. Any changes may appear at any time.
+Syntax for defining rules are still work in progress. Changes may occur at any time.
 
 # me-generator
 Generate an image with random pieces of clothing / cosmetics.
@@ -22,8 +22,8 @@ Generate an image with random pieces of clothing / cosmetics.
       <div align="center"><sub>seed: guppy</sub></div>
     </td>
     <td>
-      <a href="https://generator.vladde.me/?seed=hello"><img src="https://generator.vladde.me/?seed=hello"></a>
-      <div align="center"><sub>seed: hello</sub></div>
+      <a href="https://generator.vladde.me/?seed=469f0b0cb93a9592"><img src="https://generator.vladde.me/?seed=469f0b0cb93a9592"></a>
+      <div align="center"><sub>seed: 469f0b0cb93a9592</sub></div>
     </td>
   </tr>
 </table>
@@ -37,8 +37,8 @@ Examples generated using [this rulebook](https://github.com/vladdeSV/me-generato
 
 ## Project
 The projects consists of multiple parts:
+- *Generator*, rulebook for how image should be combined
 - *SVG combiner*, combines multiple `.svg` files into one
-- *Generator*, rulebook for how image should be combined (generating by seed)
 
 ## Hack
 Please keep in mind; in essence, this is a glorified SVG-combiner. An image is generated from a rulebook. This rulebook specifies the images which will be used, and all rules when generating the image.
@@ -83,6 +83,9 @@ I highly recommend looking at the [example rulebook](https://github.com/vladdeSV
 </p>
             </td>
             <td align="center">
+                <p>
+                    <i>one of…</i>
+                </p>
                 <img src="./resource/examples/shapes/combined.svg?test=2" alt="">
             </td>
         </tr>
@@ -127,7 +130,7 @@ Nothing is set in stone.
  - [ ] Target groups of parts
 
 ## Why
-Have you heard of [*The Binding of Isaac*](https://store.steampowered.com/app/250900/The_Binding_of_Isaac_Rebirth/)?
+Have you heard of [*The Binding of Isaac: Rebirth*](https://store.steampowered.com/app/250900/The_Binding_of_Isaac_Rebirth/)?
 
 ## License
 MIT © [Vladimirs Nordholm](https://github.com/vladdeSV)
