@@ -1,10 +1,13 @@
 export type BlocklistRule = [string, 'disallow', string]
 export type IndexRule = [string, 'over' | 'under', string]
 
-type PartSelection = string | null | {
-  partId: string | null
-  weight: number
-}
+type PartSelection =
+  | string
+  | null
+  | {
+      partId: string | null
+      weight: number
+    }
 
 export type Rulebook = {
   path: string

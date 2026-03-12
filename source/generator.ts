@@ -1,10 +1,9 @@
-import { Part } from './svg-combiner'
-import { Rulebook } from './rulebook'
-import * as path from 'path'
+import * as path from 'node:path'
 import seedrandom from 'seedrandom'
+import type { Rulebook } from './rulebook'
+import type { Part } from './svg-combiner'
 
 export function generate(rulebook: Rulebook, seed: string): Part[] {
-
   const rng = seedrandom(seed)
   const ids = partIdsFromRulebook(rng, rulebook)
   const partMap = partMapFromJson(rulebook.path, rulebook.parts)
@@ -15,7 +14,7 @@ export function generate(rulebook: Rulebook, seed: string): Part[] {
 type PseudoRandomNumberGenerator = () => number
 type PartMap = { [name: string]: Part }
 type PartId = string
-type WeightedPart = { partId: PartId | null, weight: number }
+type WeightedPart = { partId: PartId | null; weight: number }
 
 function partIdsFromRulebook(rng: PseudoRandomNumberGenerator, rulebook: Rulebook): string[] {
   const ids: string[] = []
@@ -28,10 +27,8 @@ function partIdsFromRulebook(rng: PseudoRandomNumberGenerator, rulebook: Ruleboo
     if (typeof gen === 'string') {
       weightedParts.push({ partId: gen, weight: 1 })
     } else {
-
       for (const part of gen) {
         if (part === null || typeof part !== 'object') {
-
           weightedParts.push({ partId: part, weight: 1 })
           continue
         }
@@ -62,7 +59,11 @@ function partIdsFromRulebook(rng: PseudoRandomNumberGenerator, rulebook: Ruleboo
   return ids
 }
 
-function selectRandomElementByWeight(rng: PseudoRandomNumberGenerator, input: (PartId | null)[], weights: number[]): PartId | null {
+function selectRandomElementByWeight(
+  rng: PseudoRandomNumberGenerator,
+  input: (PartId | null)[],
+  weights: number[]
+): PartId | null {
   if (input.length !== weights.length) {
     throw new Error('input and weight lengths must match')
   }
@@ -71,7 +72,12 @@ function selectRandomElementByWeight(rng: PseudoRandomNumberGenerator, input: (P
     return null
   }
 
-  const aggregatedWeights = weights.map((sum => (value: number) => sum += value)(0))
+  const aggregatedWeights = weights.map(
+    (
+      sum => (value: number) =>
+        (sum += value)
+    )(0)
+  )
   const weightTotal = rng() * weights.reduce((sum: number, weight) => sum + weight, 0)
   const index = aggregatedWeights.filter(el => weightTotal >= el).length
 
@@ -84,7 +90,7 @@ function selectRandomElementByWeight(rng: PseudoRandomNumberGenerator, input: (P
 }
 
 function randomWeightPart(rng: PseudoRandomNumberGenerator, parts: (WeightedPart | PartId | null)[]): PartId | null {
-  const weightedParts: (WeightedPart)[] = []
+  const weightedParts: WeightedPart[] = []
 
   for (const part of parts) {
     let weightedPart: WeightedPart
@@ -107,7 +113,7 @@ function partMapFromJson(basePath: string, data: { [name: string]: [number, numb
   const partMap: PartMap = {}
 
   for (const partId in data) {
-    if (Object.prototype.hasOwnProperty.call(data, partId)) {
+    if (Object.hasOwn(data, partId)) {
       const position = data[partId]
 
       if (position === undefined) {

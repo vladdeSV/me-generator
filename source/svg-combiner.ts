@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import * as fs from 'fs'
+import * as fs from 'node:fs'
 import * as xml2js from 'xml2js'
-import { IndexRule } from './rulebook'
+import type { IndexRule } from './rulebook'
 
 export type Part = {
   name: string
@@ -48,7 +48,6 @@ const options: xml2js.ParserOptions = Object.freeze({
 
 /// generate svg data
 export async function generate(config: DocumentConfiguration, indexRules?: IndexRule[]): Promise<string> {
-
   const base: DefinedXmlTag = {
     '#name': 'svg',
     $: {
@@ -104,14 +103,15 @@ export async function generate(config: DocumentConfiguration, indexRules?: Index
     - preserveChildrenOrder: true,
 */
 function xmlFromObject(xml: XmlTag): string {
-
   const tagName = xml['#name']
   const attributes = xml.$ ?? {}
   const children = xml.$$
 
-  const attributesString = Object.keys(attributes).map(key => {
-    return `${key}="${attributes[key]}"`
-  }).join(' ')
+  const attributesString = Object.keys(attributes)
+    .map(key => {
+      return `${key}="${attributes[key]}"`
+    })
+    .join(' ')
 
   if (children === undefined) {
     return `<${tagName} ${attributesString}/>`
@@ -124,7 +124,8 @@ function xmlFromObject(xml: XmlTag): string {
 
 async function parsePartToXmlTag(part: Part): Promise<XmlTag | undefined> {
   const pseudoUniqueId = Math.random().toString(36).substr(2, 5)
-  const svgData = fs.readFileSync(part.filePath, { encoding: 'utf-8' })
+  const svgData = fs
+    .readFileSync(part.filePath, { encoding: 'utf-8' })
     .replace(/_clip(\d+)/g, `_clip$1_${pseudoUniqueId}`)
 
   const parseData = await xml2js.parseStringPromise(svgData, options)
@@ -134,11 +135,9 @@ async function parsePartToXmlTag(part: Part): Promise<XmlTag | undefined> {
 }
 
 function rearrangeXmlTagsByIndexRules(tags: XmlTag[], indexRules: IndexRule[]): XmlTag[] {
-
   let mutableTags = tags.slice() // copy array
 
   for (const indexRule of indexRules) {
-
     const a = parsePartIdentifier(indexRule[0])
     const b = parsePartIdentifier(indexRule[2])
     const type = indexRule[1]
@@ -153,7 +152,8 @@ function rearrangeXmlTagsByIndexRules(tags: XmlTag[], indexRules: IndexRule[]): 
       continue
     }
 
-    const shouldTagBeMoved = (child: XmlTag) => (child.$?.parent === a.partId) && (a.elementId ? child.$?.id === a.elementId : true)
+    const shouldTagBeMoved = (child: XmlTag) =>
+      child.$?.parent === a.partId && (a.elementId ? child.$?.id === a.elementId : true)
     const [tagsToBeMoved, tempRearrangedTags] = partition(mutableTags, shouldTagBeMoved)
 
     // after temporarily removing some tags, check if there are is a part left which matches this conditions
@@ -172,7 +172,7 @@ function rearrangeXmlTagsByIndexRules(tags: XmlTag[], indexRules: IndexRule[]): 
     tempRearrangedTags.splice(
       tempRearrangedTags.indexOf(satisifiedSearchElement) + (type === 'over' ? 1 : 0),
       0,
-      ...tagsToBeMoved,
+      ...tagsToBeMoved
     )
 
     // update order of tags
@@ -256,9 +256,7 @@ function partition<T>(array: T[], filter: (x: T, index: number, array: T[]) => b
   const fail: T[] = []
 
   array.forEach((e, idx, arr) => {
-    const selectedArray = filter(e, idx, arr)
-      ? pass
-      : fail
+    const selectedArray = filter(e, idx, arr) ? pass : fail
 
     selectedArray.push(e)
   })
