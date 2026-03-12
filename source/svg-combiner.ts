@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-
 import * as fs from 'node:fs'
 import * as xml2js from 'xml2js'
 import type { IndexRule } from './rulebook'
@@ -29,24 +26,20 @@ type DefinedXmlTag = XmlTag & {
   $$: XmlTag[]
 }
 
-type Attributes = {
-  [name: string]: string
-}
+type Attributes = Record<string, string>
 
 type PartIdentifier = {
   partId: string
   elementId: string | undefined
 }
 
-// global parser options for this file
-const options: xml2js.ParserOptions = Object.freeze({
+const parserOptions: xml2js.ParserOptions = Object.freeze({
   strict: true,
   explicitArray: false,
   explicitChildren: true,
   preserveChildrenOrder: true,
 })
 
-/// generate svg data
 export async function generate(config: DocumentConfiguration, indexRules?: IndexRule[]): Promise<string> {
   const base: DefinedXmlTag = {
     '#name': 'svg',
@@ -65,15 +58,14 @@ export async function generate(config: DocumentConfiguration, indexRules?: Index
     const data = await parsePartToXmlTag(part)
 
     if (!data) {
-      console.warn(`invalid svg '${part.name}'. skipping ...`)
+      console.warn(`invalid svg '${part.name}', skipping`)
       continue
     }
 
-    // copy svg's namespaces onto temp global namespace
-    Object.assign(namespaces, namespacesFromXmlTag(data)) // todo might overwrite
+    Object.assign(namespaces, namespacesFromXmlTag(data))
 
     for (const element of data.$$ ?? []) {
-      const newElement = combinedXmlTagChild(part, element)
+      const newElement = wrapInGroup(part, element)
 
       if (data.$?.style) {
         newElement.$.style = data.$.style
@@ -83,7 +75,6 @@ export async function generate(config: DocumentConfiguration, indexRules?: Index
     }
   }
 
-  // apply all new namespaces to global namespace
   for (const ns of Object.keys(namespaces)) {
     base.$[ns] = namespaces[ns]
   }
@@ -95,22 +86,13 @@ export async function generate(config: DocumentConfiguration, indexRules?: Index
   return xmlFromObject(base)
 }
 
-/*
-  Assuming `xml2js` parser options are:
-    - strict: true,
-    - explicitArray: false,
-    - explicitChildren: true,
-    - preserveChildrenOrder: true,
-*/
 function xmlFromObject(xml: XmlTag): string {
   const tagName = xml['#name']
   const attributes = xml.$ ?? {}
   const children = xml.$$
 
   const attributesString = Object.keys(attributes)
-    .map(key => {
-      return `${key}="${attributes[key]}"`
-    })
+    .map(key => `${key}="${attributes[key]}"`)
     .join(' ')
 
   if (children === undefined) {
@@ -123,19 +105,15 @@ function xmlFromObject(xml: XmlTag): string {
 }
 
 async function parsePartToXmlTag(part: Part): Promise<XmlTag | undefined> {
-  const pseudoUniqueId = Math.random().toString(36).substr(2, 5)
-  const svgData = fs
-    .readFileSync(part.filePath, { encoding: 'utf-8' })
-    .replace(/_clip(\d+)/g, `_clip$1_${pseudoUniqueId}`)
+  const uniqueId = Math.random().toString(36).substring(2, 7)
+  const svgData = fs.readFileSync(part.filePath, { encoding: 'utf-8' }).replace(/_clip(\d+)/g, `_clip$1_${uniqueId}`)
 
-  const parseData = await xml2js.parseStringPromise(svgData, options)
-  const data = parseData.svg as XmlTag | undefined
-
-  return data
+  const parseData = await xml2js.parseStringPromise(svgData, parserOptions)
+  return parseData.svg as XmlTag | undefined
 }
 
 function rearrangeXmlTagsByIndexRules(tags: XmlTag[], indexRules: IndexRule[]): XmlTag[] {
-  let mutableTags = tags.slice() // copy array
+  let mutableTags = tags.slice()
 
   for (const indexRule of indexRules) {
     const a = parsePartIdentifier(indexRule[0])
@@ -143,12 +121,12 @@ function rearrangeXmlTagsByIndexRules(tags: XmlTag[], indexRules: IndexRule[]): 
     const type = indexRule[1]
 
     if (!a) {
-      console.log(`a, invalid identifier: '${indexRule[0]}'. skipping ...`)
+      console.warn(`invalid identifier: '${indexRule[0]}', skipping`)
       continue
     }
 
     if (!b) {
-      console.log(`b, invalid identifier: '${indexRule[2]}'. skipping ...`)
+      console.warn(`invalid identifier: '${indexRule[2]}', skipping`)
       continue
     }
 
@@ -156,26 +134,23 @@ function rearrangeXmlTagsByIndexRules(tags: XmlTag[], indexRules: IndexRule[]): 
       child.$?.parent === a.partId && (a.elementId ? child.$?.id === a.elementId : true)
     const [tagsToBeMoved, tempRearrangedTags] = partition(mutableTags, shouldTagBeMoved)
 
-    // after temporarily removing some tags, check if there are is a part left which matches this conditions
-    const satisifiedSearchElement = tempRearrangedTags.find(x => {
+    const targetElement = tempRearrangedTags.find(x => {
       const childParentId = x.$?.parent
       const childElementId = x.$?.id
       return childParentId === b.partId && (b.elementId ? childElementId === b.elementId : true)
     })
 
-    if (satisifiedSearchElement === undefined) {
-      console.log('cannot find part with element id')
+    if (targetElement === undefined) {
+      console.warn('cannot find part with element id')
       continue
     }
 
-    // insert tags at specified element
     tempRearrangedTags.splice(
-      tempRearrangedTags.indexOf(satisifiedSearchElement) + (type === 'over' ? 1 : 0),
+      tempRearrangedTags.indexOf(targetElement) + (type === 'over' ? 1 : 0),
       0,
       ...tagsToBeMoved
     )
 
-    // update order of tags
     mutableTags = tempRearrangedTags
   }
 
@@ -189,12 +164,9 @@ function parsePartIdentifier(input: string): PartIdentifier | undefined {
     return undefined
   }
 
-  const partId: string = regexResult[1]
-  const elementId: string | undefined = regexResult[2]
-
   return {
-    partId,
-    elementId,
+    partId: regexResult[1],
+    elementId: regexResult[2],
   }
 }
 
@@ -204,62 +176,46 @@ function namespacesFromXmlTag(data: XmlTag | undefined): Attributes {
   }
 
   const attributes = data.$
-  const ret: Attributes = {}
+  const result: Attributes = {}
 
-  for (const attribute of Object.keys(attributes)) {
-    const isAttributeNamespace = (x: string) => x.includes('xmlns:')
-    if (!isAttributeNamespace(attribute)) {
+  for (const key of Object.keys(attributes)) {
+    if (!key.includes('xmlns:')) {
       continue
     }
 
-    const namespaceKey = attribute // reassign for readable code
-    const namespaceValue = attributes[namespaceKey]
-
-    if (!namespaceValue) {
-      console.warn(`found falsy namespace for '${namespaceKey}'. skipping ...`)
+    const value = attributes[key]
+    if (!value) {
+      console.warn(`found falsy namespace for '${key}', skipping`)
       continue
     }
 
-    ret[attribute] = namespaceValue
+    result[key] = value
   }
 
-  return ret
+  return result
 }
 
-function combinedXmlTagChild(part: Part, element: XmlTag): DefinedXmlTag {
-  element.$ = element.$ || {}
+function wrapInGroup(part: Part, element: XmlTag): DefinedXmlTag {
+  element.$ = element.$ ?? {}
 
-  const newElement: DefinedXmlTag = {
+  return {
     '#name': 'g',
-    $: {},
-    $$: [],
+    $: {
+      parent: part.name,
+      id: element.$?.id,
+      transform: `translate(${part.x},${part.y})`,
+    },
+    $$: [element],
   }
-
-  newElement.$.parent = part.name
-  newElement.$.id = element.$?.id
-
-  if (newElement.$.transform) {
-    console.log('found part which contains a transform. this is not yet supported')
-  }
-
-  newElement.$.transform = `translate(${part.x},${part.y})`
-  newElement.$$.push(element)
-
-  return newElement
 }
 
-/// divide array into two arrays, depending on cirteria
-/// (copied from the internet, and modified to be typescript)
-/// exaple: const [strings, others] = partition(myArray, (x: unknown) => typeof x === 'string')
-function partition<T>(array: T[], filter: (x: T, index: number, array: T[]) => boolean) {
+function partition<T>(array: T[], predicate: (x: T, index: number, array: T[]) => boolean): [T[], T[]] {
   const pass: T[] = []
   const fail: T[] = []
 
-  array.forEach((e, idx, arr) => {
-    const selectedArray = filter(e, idx, arr) ? pass : fail
-
-    selectedArray.push(e)
-  })
+  for (let i = 0; i < array.length; i++) {
+    ;(predicate(array[i], i, array) ? pass : fail).push(array[i])
+  }
 
   return [pass, fail]
 }

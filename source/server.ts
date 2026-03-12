@@ -2,9 +2,9 @@ import { randomBytes } from 'node:crypto'
 import { existsSync } from 'node:fs'
 import * as path from 'node:path'
 import { generate } from './generator'
-import type { Rulebook } from './rulebook'
+import { RulebookSchema } from './rulebook'
 import { type DocumentConfiguration, generate as generateSvg } from './svg-combiner'
-import { readJsonFileAs } from './utils'
+import { readJsonFile } from './utils'
 
 function printUsage(): void {
   console.log(`usage: bun source/server.ts <rulebook-path> [options]
@@ -65,19 +65,14 @@ if (!existsSync(rulebookPath)) {
   process.exit(1)
 }
 
-const rulebook: Rulebook = readJsonFileAs<Rulebook>(rulebookPath)
-rulebook.path = path.join(path.dirname(rulebookPath), rulebook.path === undefined ? '.' : rulebook.path)
+const rulebook = readJsonFile(rulebookPath, RulebookSchema)
+rulebook.path = path.join(path.dirname(rulebookPath), rulebook.path ?? '.')
 
-function verifySeed(seed: string | null): string | undefined {
-  if (seed === null) {
-    return undefined
+function validSeed(seed: string | null): string | undefined {
+  if (seed && seed.trim() !== '') {
+    return seed
   }
-
-  if (seed.trim() === '') {
-    return undefined
-  }
-
-  return seed
+  return undefined
 }
 
 Bun.serve({
@@ -90,7 +85,7 @@ Bun.serve({
     }
 
     const seedParam = url.searchParams.get('seed')
-    const seed = verifySeed(seedParam) ?? randomBytes(8).toString('hex')
+    const seed = validSeed(seedParam) ?? randomBytes(8).toString('hex')
 
     console.log(`generating with seed: '${seed}'`)
 

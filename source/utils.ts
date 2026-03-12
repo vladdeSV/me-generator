@@ -1,5 +1,7 @@
 import { readFileSync } from 'node:fs'
+import type { z } from 'zod'
 
-export function readJsonFileAs<T>(path: string): T {
-  return JSON.parse(readFileSync(path).toString('utf8')) as T
+export function readJsonFile<T extends z.ZodType>(path: string, schema: T): z.infer<T> {
+  const data: unknown = JSON.parse(readFileSync(path, 'utf8'))
+  return schema.parse(data)
 }

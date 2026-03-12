@@ -6,22 +6,21 @@ import type { Part } from './svg-combiner'
 export function generate(rulebook: Rulebook, seed: string): Part[] {
   const rng = seedrandom(seed)
   const ids = partIdsFromRulebook(rng, rulebook)
-  const partMap = partMapFromJson(rulebook.path, rulebook.parts)
+  const partMap = buildPartMap(rulebook.path, rulebook.parts)
 
-  return convertPartIdsToParts(ids, partMap)
+  return resolvePartIds(ids, partMap)
 }
 
-type PseudoRandomNumberGenerator = () => number
-type PartMap = { [name: string]: Part }
+type Rng = () => number
+type PartMap = Record<string, Part>
 type PartId = string
 type WeightedPart = { partId: PartId | null; weight: number }
 
-function partIdsFromRulebook(rng: PseudoRandomNumberGenerator, rulebook: Rulebook): string[] {
+function partIdsFromRulebook(rng: Rng, rulebook: Rulebook): string[] {
   const ids: string[] = []
-  const blacklistedIds: string[] = []
+  const blockedIds: string[] = []
 
-  const generation = rulebook.generation
-  for (const gen of generation) {
+  for (const gen of rulebook.generation) {
     let weightedParts: WeightedPart[] = []
 
     if (typeof gen === 'string') {
@@ -37,19 +36,17 @@ function partIdsFromRulebook(rng: PseudoRandomNumberGenerator, rulebook: Ruleboo
       }
     }
 
-    weightedParts = weightedParts.filter(x => !blacklistedIds.includes(x.partId as string))
+    weightedParts = weightedParts.filter(x => !blockedIds.includes(x.partId as string))
 
-    const partId = randomWeightPart(rng, weightedParts)
+    const partId = selectByWeight(rng, weightedParts)
     if (partId === null) {
       continue
     }
 
     for (const rule of rulebook.blocklist ?? []) {
-      const foo = rule[0]
-      if (partId === foo) {
-        console.log(`${partId} blacklists ${rule[2]}`)
-
-        blacklistedIds.push(rule[2])
+      if (partId === rule[0]) {
+        console.log(`${partId} blocks ${rule[2]}`)
+        blockedIds.push(rule[2])
       }
     }
 
@@ -59,92 +56,53 @@ function partIdsFromRulebook(rng: PseudoRandomNumberGenerator, rulebook: Ruleboo
   return ids
 }
 
-function selectRandomElementByWeight(
-  rng: PseudoRandomNumberGenerator,
-  input: (PartId | null)[],
-  weights: number[]
-): PartId | null {
-  if (input.length !== weights.length) {
-    throw new Error('input and weight lengths must match')
-  }
-
-  if (input.length === 0) {
+function selectByWeight(rng: Rng, parts: WeightedPart[]): PartId | null {
+  if (parts.length === 0) {
     return null
   }
 
-  const aggregatedWeights = weights.map(
-    (
-      sum => (value: number) =>
-        (sum += value)
-    )(0)
-  )
-  const weightTotal = rng() * weights.reduce((sum: number, weight) => sum + weight, 0)
-  const index = aggregatedWeights.filter(el => weightTotal >= el).length
+  const weights = parts.map(p => p.weight ?? 1)
+  const total = weights.reduce((sum, w) => sum + w, 0)
+  let remaining = rng() * total
 
-  const partId = input[index]
-  if (partId === undefined) {
-    throw new Error() // fixme: better error
-  }
-
-  return partId
-}
-
-function randomWeightPart(rng: PseudoRandomNumberGenerator, parts: (WeightedPart | PartId | null)[]): PartId | null {
-  const weightedParts: WeightedPart[] = []
-
-  for (const part of parts) {
-    let weightedPart: WeightedPart
-
-    if (part === null || typeof part !== 'object') {
-      weightedPart = { partId: part, weight: 1 }
-    } else {
-      weightedPart = part
+  for (let i = 0; i < parts.length; i++) {
+    remaining -= weights[i]
+    if (remaining < 0) {
+      return parts[i].partId
     }
-
-    weightedParts.push(weightedPart)
   }
 
-  const partIds = weightedParts.map(part => part.partId)
-  const partWeights = weightedParts.map(part => part.weight ?? 1)
-  return selectRandomElementByWeight(rng, partIds, partWeights)
+  return parts[parts.length - 1].partId
 }
 
-function partMapFromJson(basePath: string, data: { [name: string]: [number, number] }): PartMap {
+function buildPartMap(basePath: string, data: Record<string, [number, number]>): PartMap {
   const partMap: PartMap = {}
 
-  for (const partId in data) {
-    if (Object.hasOwn(data, partId)) {
-      const position = data[partId]
-
-      if (position === undefined) {
-        throw new Error() // fixme: better error
-      }
-
-      partMap[partId] = {
-        name: partId,
-        filePath: path.join(basePath, `${partId}.svg`),
-        x: position[0],
-        y: position[1],
-      }
+  for (const [partId, position] of Object.entries(data)) {
+    partMap[partId] = {
+      name: partId,
+      filePath: path.join(basePath, `${partId}.svg`),
+      x: position[0],
+      y: position[1],
     }
   }
 
   return partMap
 }
 
-function convertPartIdsToParts(ids: string[], parts: PartMap): Part[] {
-  const ret: Part[] = []
+function resolvePartIds(ids: string[], parts: PartMap): Part[] {
+  const resolved: Part[] = []
 
   for (const id of ids) {
     const part = parts[id]
 
     if (part === undefined) {
-      console.error(`found unknown part id (does not exists) '${id}'. skipping ...`)
+      console.error(`unknown part id '${id}', skipping`)
       continue
     }
 
-    ret.push(part)
+    resolved.push(part)
   }
 
-  return ret
+  return resolved
 }
