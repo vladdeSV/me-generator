@@ -2,9 +2,6 @@
   "name": "me-generator",
   "version": "0.0.1",
   "description": "Generate SVG from smaller parts",
-  "scripts": {
-    "serve": "bun source/server.ts"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vladdeSV/me-generator.git"
@@ -18,11 +15,11 @@
   "devDependencies": {
     "@types/seedrandom": "^3.0.8",
     "@types/xml2js": "^0.4.14",
-    "bun-types": "^1.2.7"
+    "bun-types": "^1.4.0"
   },
   "dependencies": {
     "seedrandom": "^3.0.5",
     "xml2js": "^0.6.2",
-    "zod": "^4.3.6"
+    "zod": "^4.5.4"
   }
 }
