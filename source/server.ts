@@ -1,10 +1,9 @@
 import { randomBytes } from 'node:crypto'
-import { existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import * as path from 'node:path'
 import { generate } from './generator'
 import { RulebookSchema } from './rulebook'
 import { type DocumentConfiguration, generate as generateSvg } from './svg-combiner'
-import { readJsonFile } from './utils'
 
 function printUsage(): void {
   console.log(`usage: bun source/server.ts <rulebook-path> [options]
@@ -18,19 +17,20 @@ options:
 function parseArgs(argv: string[]): { rulebookPath: string; port: number; width: number; height: number } {
   const args = argv.slice(2)
 
-  if (args.length === 0 || args[0].startsWith('--')) {
+  if (args.length === 0) {
     printUsage()
     process.exit(1)
   }
 
-  const rulebookPath = args[0]
+  let rulebookPath: string = ''
   let port = 8000
   let width = 850
   let height = 270
 
-  for (let i = 1; i < args.length; i++) {
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i]
     const next = args[i + 1]
-    switch (args[i]) {
+    switch (arg) {
       case '--port':
         port = Number(next)
         i++
@@ -44,15 +44,26 @@ function parseArgs(argv: string[]): { rulebookPath: string; port: number; width:
         i++
         break
       default:
-        console.error(`unknown option: ${args[i]}`)
-        printUsage()
-        process.exit(1)
+        if (rulebookPath) {
+          console.error(`unknown option: ${args[i]}`)
+          printUsage()
+          process.exit(1)
+        }
+
+        rulebookPath = String(arg)
     }
-    if (Number.isNaN(port) || Number.isNaN(width) || Number.isNaN(height)) {
-      console.error('options must be valid numbers')
-      printUsage()
-      process.exit(1)
-    }
+  }
+
+  if (!rulebookPath) {
+    console.error('missing rulebook path')
+    printUsage()
+    process.exit(1)
+  }
+
+  if (Number.isNaN(port) || Number.isNaN(width) || Number.isNaN(height)) {
+    console.error('options must be valid numbers')
+    printUsage()
+    process.exit(1)
   }
 
   return { rulebookPath, port, width, height }
@@ -65,7 +76,9 @@ if (!existsSync(rulebookPath)) {
   process.exit(1)
 }
 
-const rulebook = readJsonFile(rulebookPath, RulebookSchema)
+const data: unknown = JSON.parse(readFileSync(rulebookPath, 'utf8'))
+const rulebook = RulebookSchema.parse(data)
+
 rulebook.path = path.join(path.dirname(rulebookPath), rulebook.path ?? '.')
 
 function validSeed(seed: string | null): string | undefined {

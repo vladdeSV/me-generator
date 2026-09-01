@@ -209,12 +209,13 @@ function wrapInGroup(part: Part, element: XmlTag): DefinedXmlTag {
   }
 }
 
-function partition<T>(array: T[], predicate: (x: T, index: number, array: T[]) => boolean): [T[], T[]] {
+function partition<T>(array: T[], predicate: (value: T, index: number, array: T[]) => boolean): [T[], T[]] {
   const pass: T[] = []
   const fail: T[] = []
 
   for (let i = 0; i < array.length; i++) {
-    ;(predicate(array[i], i, array) ? pass : fail).push(array[i])
+    const bucket = predicate(array[i], i, array) ? pass : fail
+    bucket.push(array[i])
   }
 
   return [pass, fail]
